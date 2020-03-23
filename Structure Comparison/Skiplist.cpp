@@ -1,5 +1,6 @@
 #include "Skiplist.h"
 #include <stdlib.h>
+#include <time.h>
 
 Skiplist::Skiplist()
 {
@@ -13,6 +14,8 @@ Skiplist::Skiplist()
 
 	height = 1;
 	numItems = 0;
+
+	srand(time(NULL));
 }
 
 Skiplist::~Skiplist()
