@@ -121,6 +121,8 @@ void Skiplist::insert(const char word[50])
 
 		stackNode->left = leftNode->up;
 		stackNode->right = rightNode->up;
+
+		newNode = stackNode;
 	}
 }
 
