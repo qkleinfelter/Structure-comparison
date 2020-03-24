@@ -49,4 +49,6 @@ int main()
     //tree->list();
     tree->stackedList();
     
+
+    delete tree;
 }
