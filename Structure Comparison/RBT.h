@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <string.h>
+#define COUNT 10
 using namespace std;
 class RBT
 {
@@ -9,6 +10,7 @@ public:
 	~RBT();
 	void insert(const char word[50]);
 	void list();
+	void print2D();
 private:
 	struct node
 	{
@@ -33,4 +35,5 @@ private:
 	void leftRotation(node* x);
 	void rightRotation(node* x);
 	void insertFixup(node* z);
+	void print2DUtil(node* start, int space);
 };

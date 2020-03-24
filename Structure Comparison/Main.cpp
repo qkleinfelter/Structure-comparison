@@ -48,6 +48,7 @@ int main()
     tree->insert("g");
 
     tree->list();
+    tree->print2D();
     //tree->stackedList();
     
 

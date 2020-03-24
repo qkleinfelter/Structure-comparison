@@ -186,3 +186,22 @@ void RBT::traverse(int& index, node* n)
 		traverse(index, n->right);
 	}
 }
+
+void RBT::print2D()
+{
+	print2DUtil(root, 0);
+}
+
+void RBT::print2DUtil(node* start, int space)
+{
+	if (start == nil) return;
+	space += COUNT;
+	print2DUtil(start->right, space);
+
+	cout << endl;
+	for (int i = COUNT; i < space; i++)
+		cout << " ";
+	cout << start->word << endl;
+
+	print2DUtil(start->left, space);
+}
