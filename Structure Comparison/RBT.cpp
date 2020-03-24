@@ -24,7 +24,7 @@ void RBT::insert(const char word[50])
 	node* y = nil; // Y will lag one step behind x, to ensure we keep track of where we fall off the tree
 	while (x != nil)
 	{
-		int compareVal = strcmp(x->word, word);
+		int compareVal = strcmp(word, x->word);
 		y = x; // Save our current location in y
 		if (compareVal == 0)
 		{
@@ -34,15 +34,13 @@ void RBT::insert(const char word[50])
 		}
 		// The word didn't match our word, so we check to see if the word we want to insert should go to the left or right of the current word,
 		// and make x the pointer from our current words appropriate direction
-		x = compareVal > 0 ? x->left : x->right;
+		x = compareVal < 0 ? x->left : x->right;
 	}
 	// We made it here so we must not have found the word in the list
 	// Therefore, create a new node to store the word
 	node* newNode = new node;
 	newNode->count = 1; // Redundantly set the count in the new node to 1
 	strcpy(newNode->word, word); // Set the word in the new node to be the word we are adding to the list
-	newNode->left = nil; // We only add new nodes as leaves so set the left and right pointers to null
-	newNode->right = nil;
 	newNode->parent = y;
 
 	if (y == nil)
@@ -85,7 +83,7 @@ void RBT::leftRotation(node* x)
 void RBT::rightRotation(node* x)
 {
 	node* y = x->left;
-	x->left = y->left;
+	x->left = y->right;
 	if (y->right != nil)
 		y->right->parent = x;
 	y->parent = x->parent;
