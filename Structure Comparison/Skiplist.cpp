@@ -104,6 +104,8 @@ void Skiplist::insert(const char word[50])
 
 		node* stackNode = new node; // Node that gets stacked on top of the current node
 		strcpy(stackNode->word, word);
+		stackNode->down = newNode;
+		newNode->up = stackNode;
 
 		node* leftNode = p; 
 		while (leftNode->up == nullptr)
