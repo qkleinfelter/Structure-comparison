@@ -32,4 +32,5 @@ private:
 
 	void leftRotation(node* x);
 	void rightRotation(node* x);
+	void insertFixup(node* z);
 };

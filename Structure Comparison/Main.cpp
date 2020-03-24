@@ -4,11 +4,12 @@
 #include <iostream>
 #include "BST.h"
 #include "Skiplist.h"
+#include "RBT.h"
 
 int main()
 {
    
-    Skiplist* tree = new Skiplist();
+    RBT* tree = new RBT();
     
     //tree->list();
 
@@ -46,8 +47,8 @@ int main()
     tree->insert("o");
     tree->insert("g");
 
-    //tree->list();
-    tree->stackedList();
+    tree->list();
+    //tree->stackedList();
     
 
     delete tree;
