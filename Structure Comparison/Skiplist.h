@@ -8,7 +8,8 @@ public:
 	Skiplist();
 	~Skiplist();
 	void insert(const char word[50]);
-	void traverse();
+	void list();
+	void stackedList();
 private:
 	struct node
 	{
@@ -27,8 +28,10 @@ private:
 	node* tail = nullptr;
 	int height;
 	int numItems;
-	void list(int& index, node* n);
 	node* find(const char word[50]);
 
 	void deleteNode(node* n);
+
+	node* createNegInfNode();
+	node* createPosInfNode();
 };

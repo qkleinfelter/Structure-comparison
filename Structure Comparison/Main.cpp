@@ -3,14 +3,14 @@
 
 #include <iostream>
 #include "BST.h"
+#include "Skiplist.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+   
+    Skiplist* tree = new Skiplist();
     
-    BST* tree = new BST();
-    
-    tree->list();
+    //tree->list();
 
     tree->insert("b");
     tree->insert("a");
@@ -46,6 +46,7 @@ int main()
     tree->insert("o");
     tree->insert("g");
 
-    tree->list();
+    //tree->list();
+    tree->stackedList();
     
 }

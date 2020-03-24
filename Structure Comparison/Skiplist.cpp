@@ -1,6 +1,7 @@
 #include "Skiplist.h"
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
 const char Skiplist::node::NEG_INF[50] = { '.' };
 const char Skiplist::node::POS_INF[50] = { ',' };
@@ -77,7 +78,7 @@ void Skiplist::insert(const char word[50])
 
 	int currentHeight = 1;
 
-	while (rand() & 1) // seed this somehow eventually
+	while (rand() & 1)
 	{
 		currentHeight++;
 
@@ -118,5 +119,60 @@ void Skiplist::insert(const char word[50])
 
 		stackNode->left = leftNode->up;
 		stackNode->right = rightNode->up;
+	}
+}
+
+void Skiplist::list()
+{
+	node* start = head;
+	while (start->down != nullptr)
+	{
+		start = start->down;
+	}
+	
+	node* end = tail;
+	while (end->down != nullptr)
+	{
+		end = end->down;
+	}
+
+	start = start->right;
+	int index = 0;
+	cout << "Set contains: ";
+
+	while (start != end)
+	{
+		cout << "(" << ++index << ") " << start->word << " " << start->count;
+
+		if (index != numItems)
+		{
+			cout << ", ";
+		}
+		
+		start = start->right;
+ 	}
+}
+
+void Skiplist::stackedList()
+{
+	cout << "num items: " << numItems << ", height: " << height << endl;
+
+	node* p = head;
+	while (p->down != nullptr)
+	{
+		p = p->down;
+	}
+	p = p->right;
+
+	while (strcmp(p->word, node::POS_INF) != 0)
+	{
+		node* q = p;
+		do
+		{
+			cout << q->word << " ";
+			q = q->up;
+		} while (q != nullptr);
+		cout << endl;
+		p = p->right;
 	}
 }
