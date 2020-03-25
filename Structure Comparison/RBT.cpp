@@ -12,7 +12,26 @@ RBT::RBT()
 
 RBT::~RBT()
 {
+	if (root != nil)
+	{
+		deleteNode(root);
+	}
+	delete nil;
+	nil = nullptr;
+	root = nullptr;
+}
 
+void RBT::deleteNode(node* n)
+{
+	if (n->left != nil)
+	{
+		deleteNode(n->left);
+	}
+	if (n->right != nil)
+	{
+		deleteNode(n->right);
+	}
+	delete n;
 }
 
 void RBT::insert(const char word[50])
