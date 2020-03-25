@@ -47,7 +47,7 @@ int main()
     tree->insert("o");
     tree->insert("g");
 
-    tree->list();
+    //tree->list();
     //tree->print2D();
     tree->stackedList();
     

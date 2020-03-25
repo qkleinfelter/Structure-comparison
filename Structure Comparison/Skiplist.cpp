@@ -64,7 +64,10 @@ Skiplist::node* Skiplist::find(const char word[50], bool& found)
 			else if (compare == 0)
 			{
 				p = p->right;
-				while (p->down != nullptr) p = p->down;
+				while (p->down != nullptr)
+				{
+					p = p->down;
+				}
 				found = true;
 				return p;
 			}
@@ -102,6 +105,7 @@ void Skiplist::insert(const char word[50])
 
 	newNode->left = p;
 	newNode->right = p->right;
+	newNode->isSentinel = false;
 
 	p->right->left = newNode;
 	p->right = newNode;
