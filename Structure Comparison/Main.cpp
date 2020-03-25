@@ -9,7 +9,7 @@
 int main()
 {
    
-    RBT* tree = new RBT();
+    Skiplist* tree = new Skiplist();
     
     //tree->list();
 
@@ -48,8 +48,8 @@ int main()
     tree->insert("g");
 
     tree->list();
-    tree->print2D();
-    //tree->stackedList();
+    //tree->print2D();
+    tree->stackedList();
     
 
     delete tree;

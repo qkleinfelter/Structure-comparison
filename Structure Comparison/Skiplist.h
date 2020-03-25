@@ -19,18 +19,14 @@ private:
 		node* right = nullptr;
 		node* up = nullptr;
 		node* down = nullptr;
-
-		const static char NEG_INF[50];
-		const static char POS_INF[50];
+		bool isSentinel;
 	};
 
 	node* head = nullptr;
 	node* tail = nullptr;
 	int height;
 	int numItems;
-	node* find(const char word[50]);
-
-	void deleteNode(node* n);
+	node* find(const char word[50], bool& found);
 
 	node* createNegInfNode();
 	node* createPosInfNode();

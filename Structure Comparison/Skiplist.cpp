@@ -3,9 +3,6 @@
 #include <time.h>
 #include <iostream>
 
-const char Skiplist::node::NEG_INF[50] = { '.' };
-const char Skiplist::node::POS_INF[50] = { ',' };
-
 Skiplist::Skiplist()
 {
 	head = createNegInfNode();
@@ -41,38 +38,60 @@ Skiplist::~Skiplist()
 Skiplist::node* Skiplist::createNegInfNode()
 {
 	node* newNode = new node;
-	strcpy(newNode->word, node::NEG_INF);
+	newNode->isSentinel = true;
 	return newNode;
 }
 
 Skiplist::node* Skiplist::createPosInfNode()
 {
 	node* newNode = new node;
-	strcpy(newNode->word, node::POS_INF);
+	newNode->isSentinel = true;
 	return newNode;
 }
 
-Skiplist::node* Skiplist::find(const char word[50])
+Skiplist::node* Skiplist::find(const char word[50], bool& found)
 {
 	node* p = head;
 	while (true)
 	{
-		while (strcmp(p->right->word, node::POS_INF) != 0 && strcmp(p->right->word, word) <= 0)
+		while (!p->right->isSentinel)
 		{
-			p = p->right;
+			int compare = strcmp(p->right->word, word);
+			if (compare < 0)
+			{
+				p = p->right;
+			}
+			else if (compare == 0)
+			{
+				p = p->right;
+				while (p->down != nullptr) p = p->down;
+				found = true;
+				return p;
+			}
+			else
+			{
+				break;
+			}
 		}
 
-		if (p->down == nullptr) return p;
-
-		p = p->down;
+		if (p->down == nullptr)
+		{
+			found = false;
+			return p;
+		}
+		else
+		{
+			p = p->down;
+		}
 	}
 }
 
 void Skiplist::insert(const char word[50])
 {
-	node* p = find(word);
+	bool found = false;
+	node* p = find(word, found);
 
-	if (strcmp(p->word, word) == 0)
+	if (found)
 	{
 		p->count++;
 		return;
@@ -181,7 +200,7 @@ void Skiplist::stackedList()
 	}
 	p = p->right;
 
-	while (strcmp(p->word, node::POS_INF) != 0)
+	while (!p->isSentinel)
 	{
 		node* q = p;
 		do
