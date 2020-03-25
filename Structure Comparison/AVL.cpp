@@ -1,0 +1,170 @@
+#include "AVL.h"
+#include <iostream>
+
+AVL::AVL()
+{
+
+}
+
+AVL::~AVL()
+{
+
+}
+
+void AVL::insert(const char word[50]) // lecture 12 slides 51+
+{
+	node* Y;
+	node* A, *B, *F;
+	node* P, *Q;
+	node* C, * CL, * CR;
+	int d;
+
+	if (root == nullptr)
+	{
+		Y = new node;
+		strcpy(Y->word, word);
+		Y->left = Y->right = nullptr;
+		Y->balanceFactor = 0;
+		root = Y;
+		return;
+	}
+
+	F = Q = nullptr;
+	A = P = root;
+
+	while (P != nullptr)
+	{
+		int compare = strcmp(word, P->word);
+		if (compare == 0) return;
+		if (P->balanceFactor != 0)
+		{
+			A = P;
+			F = Q;
+		}
+		Q = P;
+		P = (compare < 0) ? P->left : P->right;
+	}
+
+	Y = new node;
+	strcpy(Y->word, word);
+	Y->left = Y->right = nullptr;
+	Y->balanceFactor = 0;
+
+	if (strcmp(word, Q->word) < 0)
+	{
+		Q->left = Y;
+	}
+	else
+	{
+		Q->right = Y;
+	}
+
+	if (strcmp(word, A->word) > 0)
+	{
+		B = P = A->right;
+		d = -1;
+	}
+	else
+	{
+		B = P = A->left;
+		d = +1;
+	}
+
+	while (P != Y)
+	{
+		if (strcmp(word, P->word) > 0)
+		{
+			P->balanceFactor = -1;
+			P = P->right;
+		}
+		else
+		{
+			P->balanceFactor = +1;
+			P = P->left;
+		}
+	}
+
+	if (A->balanceFactor == 0)
+	{
+		A->balanceFactor = d;
+		return;
+	}
+
+	if (A->balanceFactor == -d)
+	{
+		A->balanceFactor = 0;
+		return;
+	}
+
+	if (d == +1)
+	{
+		if (B->balanceFactor == +1) // LL ROTATION
+		{
+			// TODO: SLIDE 57 TO DO LL ROTATION
+		}
+		else // LR Rotation: 3 cases
+		{
+			// TODO: SLIDE 57
+			// 4 LOC HERE BUT SOME MORE TO WRITE
+			C = B->right;
+			CL = C->left;
+			CR = C->right;
+			switch (C->balanceFactor)
+			{
+				// MORE TODO 
+				// THERE ARE 3 SUBCASES HERE
+			}
+
+			C->balanceFactor = 0;
+			B = C;
+		} // end of else (LR Rotation)
+	} // end of if (d = +1)
+	else // d = -1. This is a right imbalance
+	{
+		// (RR or RL)
+		// TODO: WRITE THIS DUMBASS SHIT
+		// SYMMETRIC TO LEFT BALANCE
+	}
+
+	// Finish up:
+	if (F == nullptr)
+	{
+		root = B;
+		return;
+	}
+
+	if (A == F->left)
+	{
+		F->left = B;
+		return;
+	}
+	if (A == F->right)
+	{
+		F->right = B;
+		return;
+	}
+	cout << "If we get here, we fucked up" << endl; // adjust this line before turning in
+}
+
+void AVL::list()
+{
+}
+
+void AVL::print2D()
+{
+	print2DUtil(root, 0);
+}
+
+void AVL::print2DUtil(node* start, int space)
+{
+	if (start == nullptr) return;
+	space += COUNT;
+	print2DUtil(start->right, space);
+
+	cout << endl;
+	for (int i = COUNT; i < space; i++)
+		cout << " ";
+	cout << start->word << endl;
+
+	print2DUtil(start->left, space);
+}
