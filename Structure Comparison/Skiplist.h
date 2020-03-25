@@ -19,7 +19,7 @@ private:
 		node* right = nullptr;
 		node* up = nullptr;
 		node* down = nullptr;
-		bool isSentinel;
+		bool isSentinel = false;
 	};
 
 	node* head = nullptr;
@@ -28,6 +28,5 @@ private:
 	int numItems;
 	node* find(const char word[50], bool& found);
 
-	node* createNegInfNode();
-	node* createPosInfNode();
+	node* createSentinelNode();
 };

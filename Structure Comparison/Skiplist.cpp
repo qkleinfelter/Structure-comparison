@@ -5,8 +5,8 @@
 
 Skiplist::Skiplist()
 {
-	head = createNegInfNode();
-	tail = createPosInfNode();
+	head = createSentinelNode();
+	tail = createSentinelNode();
 
 	head->right = tail;
 	tail->left = head;
@@ -35,14 +35,7 @@ Skiplist::~Skiplist()
 	}
 }
 
-Skiplist::node* Skiplist::createNegInfNode()
-{
-	node* newNode = new node;
-	newNode->isSentinel = true;
-	return newNode;
-}
-
-Skiplist::node* Skiplist::createPosInfNode()
+Skiplist::node* Skiplist::createSentinelNode()
 {
 	node* newNode = new node;
 	newNode->isSentinel = true;
@@ -120,8 +113,8 @@ void Skiplist::insert(const char word[50])
 
 		if (currentHeight > height)
 		{
-			node* negInf = createNegInfNode();
-			node* posInf = createPosInfNode();
+			node* negInf = createSentinelNode();
+			node* posInf = createSentinelNode();
 
 			negInf->down = head;
 			head->up = negInf;
