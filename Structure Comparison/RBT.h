@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <string.h>
+#include <time.h>
 #define COUNT 10
 using namespace std;
 class RBT
@@ -28,6 +29,14 @@ private:
 
 	node* nil = nullptr;
 	node* root = nullptr;
+	unsigned int recolorings = 0;
+	unsigned int ptrChanges = 0;
+	unsigned int keyComparisons = 0;
+	unsigned int noFixesNeeded = 0;
+	unsigned int case1Fix = 0;
+	unsigned int case2Fix = 0;
+	unsigned int case3Fix = 0;
+	clock_t startTime;
 
 	void traverse(int& index, node* n);
 

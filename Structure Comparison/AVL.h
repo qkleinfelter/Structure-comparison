@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <string.h>
+#include <time.h>
 #define COUNT 10
 using namespace std;
 class AVL
@@ -24,6 +25,15 @@ private:
 	};
 
 	node* root = nullptr;
+	unsigned int bfChanges = 0;
+	unsigned int ptrChanges = 0;
+	unsigned int keyComparisons = 0;
+	unsigned int noRotNeeded = 0;
+	unsigned int llRot = 0;
+	unsigned int lrRot = 0;
+	unsigned int rlRot = 0;
+	unsigned int rrRot = 0;
+	clock_t startTime;
 
 	void traverse(int& index, node* n);
 

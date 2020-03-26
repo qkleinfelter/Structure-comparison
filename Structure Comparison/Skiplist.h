@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <string.h>
+#include <time.h>
 using namespace std;
 class Skiplist
 {
@@ -27,6 +28,11 @@ private:
 	node* tail = nullptr;
 	int height;
 	int numItems;
+	unsigned int ptrChanges = 0;
+	unsigned int keyComparisons = 0;
+	unsigned int coinTosses = 0;
+	clock_t startTime;
+
 	node* find(const char word[50], bool& found);
 
 	node* createSentinelNode();

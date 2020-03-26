@@ -142,4 +142,8 @@ void run()
             SL->displayStatistics();
         }
     }
+    delete RBT_T;
+    delete AVL_T;
+    delete BST_T;
+    delete SL;
 }
