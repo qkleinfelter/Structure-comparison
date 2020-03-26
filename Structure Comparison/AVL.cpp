@@ -133,9 +133,9 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		if (B->balanceFactor == +1) // LL ROTATION
 		{
 			llRot++;
-			cout << "LL Rot" << endl;
-			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+			//cout << "LL Rot" << endl;
+			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
+			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
 			B->right = A;
 			A->left = B->right;
@@ -150,10 +150,10 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			CL = C->left;
 			CR = C->right;
 
-			cout << "LR Rot" << endl;
-			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
-			cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
+			//cout << "LR Rot" << endl;
+			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
+			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+			//cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
 
 			C->left = B;
 			C->right = A;
@@ -191,9 +191,9 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		if (B->balanceFactor == -1) // RR Rotation
 		{
 			rrRot++;
-			cout << "RR Rot" << endl;
-			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+			//cout << "RR Rot" << endl;
+			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
+			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
 			B->left = A;
 			A->right = B->left;
@@ -208,10 +208,10 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			CL = C->left;
 			CR = C->right;
 
-			cout << "RL Rot" << endl;
-			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
-			cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
+			//cout << "RL Rot" << endl;
+			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
+			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+			//cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
 
 			C->right = B;
 			C->left = A;
