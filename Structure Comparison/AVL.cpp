@@ -8,7 +8,25 @@ AVL::AVL()
 
 AVL::~AVL()
 {
+	if (root == nullptr)
+	{
+		return;
+	}
+	deleteNode(root);
+	root = nullptr;
+}
 
+void AVL::deleteNode(node* n)
+{
+	if (n->left != nullptr)
+	{
+		deleteNode(n->left);
+	}
+	if (n->right != nullptr)
+	{
+		deleteNode(n->right);
+	}
+	delete n;
 }
 
 void AVL::insert(const char word[50]) // lecture 12 slides 51+
@@ -205,6 +223,39 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 
 void AVL::list()
 {
+	// This method lists out our nodes in the tree through a recursive in-order traversal
+	if (root == nullptr)
+	{
+		// If our root is null, then we must have an empty set, so print out as such and exit
+		cout << "Set is empty" << endl;
+		return;
+	}
+	// If we do have stuff in the tree, print out "Set contains: " per spec, before setting up an index variable and calling our recursive traversal method
+	cout << "Set contains: ";
+	int index = 0;
+	traverse(index, root); // Starts our recursive traversal on the root, with an initial index of 0 (this is going to be incremented before each print, and we want an initial index of 1)
+	cout << endl; // Print out an endline since we don't want to do so inside the traversal
+}
+
+void AVL::traverse(int& index, node* n)
+{
+	// This method does a recursive in-order traversal of the nodes in the tree to print them out with an index and their counts
+	// We also pull in an index parameter, passed as a reference, so that no matter which recursive call we are in, the correct index will be printed with proper incrementing
+	// This indexing also could have been implemented as a class variable in the BST, but I believe this passing an int by reference makes it cleaner since we don't have a class variable that is barely used
+	if (n == nullptr) return; // If we have a null node, we don't have any work to do, simply return out
+	if (n->left != nullptr)
+	{
+		// If our left child is not null, we want to recursively traverse that child
+		traverse(index, n->left);
+		cout << ", "; // We know that there will be something that comes after this, because our current node isn't null, so we want to add a comma after our left child is printed
+	}
+	cout << "(" << ++index << ") " << n->word << " " << n->count; // Print out the index (pre-incremented), followed by our word and its count
+	if (n->right != nullptr)
+	{
+		// If our right child is not null, we want to recursively traverse that child
+		cout << ", "; // We print the comma here, and not immediately after printing the current child, because we want to be sure that there is something to the right before we do so
+		traverse(index, n->right);
+	}
 }
 
 void AVL::print2D()

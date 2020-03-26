@@ -22,15 +22,11 @@ private:
 		int balanceFactor = 0;
 	};
 
-	node* nil = nullptr;
 	node* root = nullptr;
 
 	void traverse(int& index, node* n);
 
 	void deleteNode(node* n);
 
-	void leftRotation(node* x);
-	void rightRotation(node* x);
-	void insertFixup(node* z);
 	void print2DUtil(node* start, int space);
 };
