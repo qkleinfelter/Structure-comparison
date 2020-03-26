@@ -106,8 +106,6 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		}
 		else // LR Rotation: 3 cases
 		{
-			// TODO: SLIDE 57
-			// 4 LOC HERE BUT SOME MORE TO WRITE
 			C = B->right;
 			CL = C->left;
 			CR = C->right;
@@ -123,8 +121,6 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 
 			switch (C->balanceFactor)
 			{
-				// MORE TODO 
-				// THERE ARE 3 SUBCASES HERE
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0;
 				break;
@@ -154,7 +150,6 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		}
 		else // RL Rotation: 3 cases
 		{
-			// TODO: SLIDE 58
 			C = B->left;
 			CL = C->left;
 			CR = C->right;
@@ -170,8 +165,6 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 
 			switch (C->balanceFactor)
 			{
-				// MORE TODO 
-				// THERE ARE 3 SUBCASES HERE
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0;
 				break;
@@ -228,7 +221,7 @@ void AVL::print2DUtil(node* start, int space)
 	cout << endl;
 	for (int i = COUNT; i < space; i++)
 		cout << " ";
-	cout << start->word << endl;
+	cout << start->word << "(" << start->balanceFactor << ")" << endl;
 
 	print2DUtil(start->left, space);
 }

@@ -12,12 +12,18 @@ int main()
    
     AVL* tree = new AVL();
     
-    tree->insert("j");
-    tree->insert("d");
-    tree->insert("n");
-    tree->insert("l");
-    tree->insert("o");
-    tree->insert("k");
+    tree->insert("mar");
+    tree->insert("may");
+    tree->insert("nov");
+    tree->insert("aug");
+    tree->insert("apr");
+    tree->insert("jan");
+    tree->insert("dec");
+    tree->insert("jul");
+    tree->insert("feb");
+    tree->insert("jun");
+    tree->insert("oct");
+    tree->insert("sep");
 
     //tree->list();
     /*
