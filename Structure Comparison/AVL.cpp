@@ -121,8 +121,9 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			cout << "LL Rot" << endl;
 			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+
 			B->right = A;
-			A->left = nullptr;
+			A->left = B->right;
 			A->balanceFactor = B->balanceFactor = 0;
 		}
 		else // LR Rotation: 3 cases
@@ -130,6 +131,7 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			C = B->right;
 			CL = C->left;
 			CR = C->right;
+
 			cout << "LR Rot" << endl;
 			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
@@ -168,8 +170,9 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			cout << "RR Rot" << endl;
 			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+
 			B->left = A;
-			A->right = nullptr;
+			A->right = B->left;
 			A->balanceFactor = B->balanceFactor = 0;
 		}
 		else // RL Rotation: 3 cases
