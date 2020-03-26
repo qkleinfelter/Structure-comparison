@@ -6,6 +6,7 @@ BST::BST()
 	// Constructor, nothing to do here except make sure we don't have a root already.
 	// This is redundant since it defaults to NULL, but we do it anyway for clarity
 	root = nullptr; // New Trees don't have a root until we insert an item.
+	startTime = clock();
 }
 
 BST::~BST()
@@ -35,6 +36,7 @@ void BST::insert(const char word[50])
 	while (x != nullptr)
 	{
 		int compareVal = strcmp(x->word, word);
+		keyComparisons++;
 		y = x; // Save our current location in y
 		if (compareVal == 0)
 		{
@@ -58,16 +60,21 @@ void BST::insert(const char word[50])
 	{
 		// y is only NULL if the root was null so our new node must be the first in the tree, therefore make it the root
 		root = newNode;
+		ptrChanges++;
 	}
 	else if (strcmp(newNode->word, y->word) < 0)
 	{
+		keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
+		ptrChanges++;
 	}
 	else
 	{
+		keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
+		ptrChanges++;
 	}
 }
 
@@ -106,4 +113,17 @@ void BST::traverse(int& index, node* n)
 		cout << ", "; // We print the comma here, and not immediately after printing the current child, because we want to be sure that there is something to the right before we do so
 		traverse(index, n->right);
 	}
+}
+
+void BST::displayStatistics()
+{
+	cout << "---------------------------" << endl;
+	cout << "BST STATISTICS" << endl;
+	clock_t endTime = clock();
+	cout << "Pointer Changes: " << ptrChanges << endl;
+	cout << "Key Comparisons: " << keyComparisons << endl;
+	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
+	cout << "END BST STATISTICS" << endl;
+	cout << "---------------------------" << endl;
 }

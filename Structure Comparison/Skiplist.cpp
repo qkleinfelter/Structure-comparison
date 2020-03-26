@@ -223,10 +223,14 @@ void Skiplist::stackedList()
 
 void Skiplist::displayStatistics()
 {
+	cout << "---------------------------" << endl;
+	cout << "SKIPLIST STATISTICS" << endl;
 	clock_t endTime = clock();
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
 	cout << "Coin Tosses: " << coinTosses << endl;
 	double secondsElapsed = difftime(endTime, startTime) / 1000;
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
+	cout << "END SKIPLIST STATISTICS" << endl;
+	cout << "---------------------------" << endl;
 }
