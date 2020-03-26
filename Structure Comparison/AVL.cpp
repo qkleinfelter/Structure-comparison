@@ -145,7 +145,6 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	else // d = -1. This is a right imbalance
 	{
 		// (RR or RL)
-		// TODO: WRITE THIS DUMBASS SHIT
 		// SYMMETRIC TO LEFT BALANCE
 		if (B->balanceFactor == -1) // RR Rotation
 		{
@@ -153,6 +152,42 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			A->right = nullptr;
 			A->balanceFactor = B->balanceFactor = 0;
 		}
+		else // RL Rotation: 3 cases
+		{
+			// TODO: SLIDE 58
+			C = B->left;
+			CL = C->left;
+			CR = C->right;
+
+			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
+			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
+			cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
+
+			C->right = B;
+			C->left = A;
+			B->left = CL;
+			A->right = CR;
+
+			switch (C->balanceFactor)
+			{
+				// MORE TODO 
+				// THERE ARE 3 SUBCASES HERE
+			case 0:
+				A->balanceFactor = B->balanceFactor = 0;
+				break;
+			case -1:
+				B->balanceFactor = +1;
+				A->balanceFactor = C->balanceFactor = 0;
+				break;
+			case 1:
+				B->balanceFactor = C->balanceFactor = 0;
+				A->balanceFactor = -1;
+				break;
+			}
+
+			C->balanceFactor = 0;
+			B = C;
+		} // end of else (RL Rotation)
 	}
 
 	// Finish up:
