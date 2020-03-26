@@ -5,6 +5,7 @@
 
 Skiplist::Skiplist()
 {
+	startTime = clock();
 	head = createSentinelNode();
 	tail = createSentinelNode();
 
@@ -50,6 +51,7 @@ Skiplist::node* Skiplist::find(const char word[50], bool& found)
 		while (!p->right->isSentinel)
 		{
 			int compare = strcmp(p->right->word, word);
+			keyComparisons++;
 			if (compare < 0)
 			{
 				p = p->right;
@@ -98,10 +100,12 @@ void Skiplist::insert(const char word[50])
 
 	newNode->left = p;
 	newNode->right = p->right;
+	ptrChanges += 2;
 	newNode->isSentinel = false;
 
 	p->right->left = newNode;
 	p->right = newNode;
+	ptrChanges += 2;
 
 	numItems++;
 
@@ -110,6 +114,7 @@ void Skiplist::insert(const char word[50])
 	while (rand() & 1)
 	{
 		currentHeight++;
+		coinTosses++;
 
 		if (currentHeight > height)
 		{
@@ -118,12 +123,15 @@ void Skiplist::insert(const char word[50])
 
 			negInf->down = head;
 			head->up = negInf;
+			ptrChanges += 2;
 
 			posInf->down = tail;
 			tail->up = posInf;
+			ptrChanges += 2;
 
 			negInf->right = posInf;
 			posInf->left = negInf;
+			ptrChanges += 2;
 
 			head = negInf;
 			tail = posInf;
@@ -135,6 +143,7 @@ void Skiplist::insert(const char word[50])
 		strcpy(stackNode->word, word);
 		stackNode->down = newNode;
 		newNode->up = stackNode;
+		ptrChanges += 2;
 
 		node* leftNode = p; 
 		while (leftNode->up == nullptr)
@@ -150,9 +159,11 @@ void Skiplist::insert(const char word[50])
 
 		stackNode->left = leftNode->up;
 		stackNode->right = rightNode->up;
+		ptrChanges += 2;
 
 		newNode = stackNode;
 	}
+	coinTosses++; // We need to increment coin tosses one more time outside the loop, because it won't get incremented inside if its not an odd number
 }
 
 void Skiplist::list()
@@ -208,4 +219,14 @@ void Skiplist::stackedList()
 		cout << endl;
 		p = p->right;
 	}
+}
+
+void Skiplist::displayStatistics()
+{
+	clock_t endTime = clock();
+	cout << "Pointer Changes: " << ptrChanges << endl;
+	cout << "Key Comparisons: " << keyComparisons << endl;
+	cout << "Coin Tosses: " << coinTosses << endl;
+	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 }
