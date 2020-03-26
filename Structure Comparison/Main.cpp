@@ -5,14 +5,22 @@
 #include "BST.h"
 #include "Skiplist.h"
 #include "RBT.h"
+#include "AVL.h"
 
 int main()
 {
    
-    Skiplist* tree = new Skiplist();
+    AVL* tree = new AVL();
     
-    //tree->list();
+    tree->insert("g");
+    tree->insert("d");
+    tree->insert("h");
+    tree->insert("a");
+    tree->insert("e");
+    tree->insert("f");
 
+    //tree->list();
+    /*
     tree->insert("b");
     tree->insert("a");
     tree->insert("c");
@@ -46,10 +54,11 @@ int main()
     tree->insert("r");
     tree->insert("o");
     tree->insert("g");
+    */
 
     //tree->list();
-    //tree->print2D();
-    tree->stackedList();
+    tree->print2D();
+    //tree->stackedList();
     
 
     delete tree;

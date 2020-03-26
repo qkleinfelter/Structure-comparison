@@ -3,7 +3,7 @@
 
 AVL::AVL()
 {
-
+	root = nullptr;
 }
 
 AVL::~AVL()
@@ -100,7 +100,9 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	{
 		if (B->balanceFactor == +1) // LL ROTATION
 		{
-			// TODO: SLIDE 57 TO DO LL ROTATION
+			B->right = A;
+			A->left = nullptr;
+			A->balanceFactor = B->balanceFactor = 0;
 		}
 		else // LR Rotation: 3 cases
 		{
@@ -109,6 +111,16 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			C = B->right;
 			CL = C->left;
 			CR = C->right;
+
+			cout << "a's word " << A->word << endl;
+			cout << "b's word " << B->word << endl;
+			cout << "c's word " << C->word << endl;
+
+			C->left = B;
+			C->right = A;
+			B->right = nullptr;
+			A->left = CR;
+
 			switch (C->balanceFactor)
 			{
 				// MORE TODO 
@@ -124,6 +136,12 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		// (RR or RL)
 		// TODO: WRITE THIS DUMBASS SHIT
 		// SYMMETRIC TO LEFT BALANCE
+		if (B->balanceFactor == -1) // RR Rotation
+		{
+			B->left = A;
+			A->right = nullptr;
+			A->balanceFactor = B->balanceFactor = 0;
+		}
 	}
 
 	// Finish up:
