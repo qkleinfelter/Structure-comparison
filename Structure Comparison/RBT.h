@@ -14,12 +14,12 @@ public:
 private:
 	struct node
 	{
-		char word[50];
+		char word[50] = {};
 		int count = 1;
 		node* left = nullptr;
 		node* right = nullptr;
 		node* parent = nullptr;
-		bool color; // true is black, false is red
+		bool color = RED; // true is black, false is red
 	};
 
 	const static bool BLACK = true;
