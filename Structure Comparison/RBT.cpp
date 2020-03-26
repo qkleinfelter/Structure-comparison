@@ -4,6 +4,7 @@
 
 RBT::RBT()
 {
+	startTime = clock();
 	nil = new node;
 	strcpy(nil->word, "");
 	nil->color = BLACK;
@@ -44,6 +45,7 @@ void RBT::insert(const char word[50])
 	while (x != nil)
 	{
 		int compareVal = strcmp(word, x->word);
+		keyComparisons++;
 		y = x; // Save our current location in y
 		if (compareVal == 0)
 		{
@@ -61,24 +63,32 @@ void RBT::insert(const char word[50])
 	newNode->count = 1; // Redundantly set the count in the new node to 1
 	strcpy(newNode->word, word); // Set the word in the new node to be the word we are adding to the list
 	newNode->parent = y;
+	ptrChanges++;
 
 	if (y == nil)
 	{
 		// y is only NULL if the root was null so our new node must be the first in the tree, therefore make it the root
 		root = newNode;
+		ptrChanges++;
 	}
 	else if (strcmp(newNode->word, y->word) < 0)
 	{
+		keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
+		ptrChanges;
 	}
 	else
 	{
+		keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
+		ptrChanges;
 	}
 	newNode->left = newNode->right = nil;
+	ptrChanges += 2;
 	newNode->color = RED;
+	// recolorings++; // This is probably an initialization task and doesn't need counting
 	insertFixup(newNode);
 }
 
@@ -86,34 +96,65 @@ void RBT::leftRotation(node* x)
 {
 	node* y = x->right; // y is x's right (non-nil) child
 	x->right = y->left; // move y's left subtree into x's right subtree
+	ptrChanges++;
 	if (y->left != nil)
+	{
 		y->left->parent = x;
+		ptrChanges++;
+	}
 	y->parent = x->parent; // Link x's parent to y
+	ptrChanges++;
 	if (x->parent == nil)			// If x has no parent, x was the root
-		root = y;					// so y becomes the new root
-	else if (x == x->parent->left)  // Otherwise (x has a parent), the 
-		x->parent->left = y;        // spot x used to occupy now
+	{								// so y becomes the new root
+		root = y;
+		ptrChanges++;
+
+	}
+	else if (x == x->parent->left)  // Otherwise (x has a parent), the
+	{								// spot x used to occupy now
+		x->parent->left = y;        
+		ptrChanges++;
+	}
 	else                            // gets taken by y
-		x->parent->right = y;       // put x on y's left, which...
+	{								// put x on y's left, which...
+		x->parent->right = y;       
+		ptrChanges++;
+	}
 	y->left = x;                    // ...makes x's parent be y
 	x->parent = y;
+	ptrChanges += 2;
 }
 
 void RBT::rightRotation(node* x)
 {
 	node* y = x->left;
 	x->left = y->right;
+	ptrChanges++;
 	if (y->right != nil)
+	{
 		y->right->parent = x;
+		ptrChanges++;
+	}
 	y->parent = x->parent;
+	ptrChanges++;
 	if (x->parent == nil)
+	{
 		root = y;
+		ptrChanges++;
+	}
 	else if (x == x->parent->right)
+	{
 		x->parent->right = y;
+		ptrChanges++;
+	}
 	else
+	{
 		x->parent->left = y;
+		ptrChanges++;
+	}
 	y->right = x;
 	x->parent = y;
+	ptrChanges += 2;
 }
 
 void RBT::insertFixup(node* z)
@@ -125,21 +166,25 @@ void RBT::insertFixup(node* z)
 			node* y = z->parent->parent->right;
 			if (y->color == RED)
 			{
+				case1Fix++;
 				z->parent->color = BLACK;
 				y->color = BLACK;
 				z->parent->parent->color = RED;
+				recolorings += 3;
 				z = z->parent->parent;
 			}
 			else 
 			{
 				if (z == z->parent->right) 
 				{
+					case2Fix++;
 					z = z->parent;
 					leftRotation(z);
 				}
-
+				case3Fix++;
 				z->parent->color = BLACK;
 				z->parent->parent->color = RED;
+				recolorings += 2;
 				rightRotation(z->parent->parent);
 			}
 		}
@@ -148,25 +193,31 @@ void RBT::insertFixup(node* z)
 			node* y = z->parent->parent->left;
 			if (y->color == RED)
 			{
+				case1Fix++;
 				z->parent->color = BLACK;
 				y->color = BLACK;
 				z->parent->parent->color = RED;
+				recolorings += 3;
 				z = z->parent->parent;
 			}
 			else 
 			{
 				if (z == z->parent->left)
 				{
+					case2Fix++;
 					z = z->parent;
 					rightRotation(z);
 				}
+				case3Fix++;
 				z->parent->color = BLACK;
 				z->parent->parent->color = RED;
+				recolorings += 2;
 				leftRotation(z->parent->parent);
 			}
 		}
 	}
 	root->color = BLACK;
+	recolorings++; // Do we need to check if the root was already black before incrementing here?
 }
 
 void RBT::list()
@@ -223,4 +274,22 @@ void RBT::print2DUtil(node* start, int space)
 	cout << start->word << endl;
 
 	print2DUtil(start->left, space);
+}
+
+void RBT::displayStatistics()
+{
+	cout << "---------------------------" << endl;
+	cout << "RBT STATISTICS" << endl;
+	clock_t endTime = clock();
+	cout << "Recolorings: " << recolorings << endl;
+	cout << "Pointer Changes: " << ptrChanges << endl;
+	cout << "Key Comparisons: " << keyComparisons << endl;
+	cout << "Times no fixups were needed: " << noFixesNeeded << endl;
+	cout << "Times we completed a Case 1 Fixup: " << case1Fix << endl;
+	cout << "Times we completed a Case 2 Fixup: " << case2Fix << endl;
+	cout << "Times we completed a Case 3 Fixup: " << case3Fix << endl;
+	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
+	cout << "END RBT STATISTICS" << endl;
+	cout << "---------------------------" << endl;
 }
