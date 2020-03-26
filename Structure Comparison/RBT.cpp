@@ -284,7 +284,7 @@ void RBT::displayStatistics()
 	cout << "Recolorings: " << recolorings << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
-	cout << "Times no fixups were needed: " << noFixesNeeded << endl;
+	cout << "Times no fixups were needed: " << noFixesNeeded << endl; // Need to actually adjust this
 	cout << "Times we completed a Case 1 Fixup: " << case1Fix << endl;
 	cout << "Times we completed a Case 2 Fixup: " << case2Fix << endl;
 	cout << "Times we completed a Case 3 Fixup: " << case3Fix << endl;

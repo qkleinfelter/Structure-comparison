@@ -3,6 +3,7 @@
 
 AVL::AVL()
 {
+	startTime = clock();
 	root = nullptr;
 }
 
@@ -53,6 +54,7 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	while (P != nullptr)
 	{
 		int compare = strcmp(word, P->word);
+		keyComparisons++;
 		if (compare == 0) return;
 		if (P->balanceFactor != 0)
 		{
@@ -70,20 +72,26 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 
 	if (strcmp(word, Q->word) < 0)
 	{
+		keyComparisons++;
 		Q->left = Y;
+		ptrChanges++;
 	}
 	else
 	{
+		keyComparisons++;
 		Q->right = Y;
+		ptrChanges++;
 	}
 
 	if (strcmp(word, A->word) > 0)
 	{
+		keyComparisons++;
 		B = P = A->right;
 		d = -1;
 	}
 	else
 	{
+		keyComparisons++;
 		B = P = A->left;
 		d = +1;
 	}
@@ -92,12 +100,16 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	{
 		if (strcmp(word, P->word) > 0)
 		{
+			keyComparisons++;
 			P->balanceFactor = -1;
+			bfChanges++;
 			P = P->right;
 		}
 		else
 		{
+			keyComparisons++;
 			P->balanceFactor = +1;
+			bfChanges++;
 			P = P->left;
 		}
 	}
@@ -105,12 +117,14 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	if (A->balanceFactor == 0)
 	{
 		A->balanceFactor = d;
+		bfChanges++;
 		return;
 	}
 
 	if (A->balanceFactor == -d)
 	{
 		A->balanceFactor = 0;
+		bfChanges++;
 		return;
 	}
 
@@ -118,16 +132,20 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	{
 		if (B->balanceFactor == +1) // LL ROTATION
 		{
+			llRot++;
 			cout << "LL Rot" << endl;
 			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
 			B->right = A;
 			A->left = B->right;
+			ptrChanges += 2;
 			A->balanceFactor = B->balanceFactor = 0;
+			bfChanges += 2;
 		}
 		else // LR Rotation: 3 cases
 		{
+			lrRot++;
 			C = B->right;
 			CL = C->left;
 			CR = C->right;
@@ -141,24 +159,29 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			C->right = A;
 			B->right = CL;
 			A->left = CR;
+			ptrChanges += 4;
 
 			switch (C->balanceFactor)
 			{
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0;
+				bfChanges += 2;
 				break;
 			case -1:
 				B->balanceFactor = +1;
 				A->balanceFactor = C->balanceFactor = 0;
+				bfChanges += 3;
 				break;
 			case 1:
 				B->balanceFactor = C->balanceFactor = 0;
 				A->balanceFactor = -1;
+				bfChanges += 3;
 				break;
 			}
 
 			C->balanceFactor = 0;
-			B = C;
+			bfChanges++; // Do we need to increment here if C is already 0?
+			B = C; // Is this a pointer change?
 		} // end of else (LR Rotation)
 	} // end of if (d = +1)
 	else // d = -1. This is a right imbalance
@@ -167,16 +190,20 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		// SYMMETRIC TO LEFT BALANCE
 		if (B->balanceFactor == -1) // RR Rotation
 		{
+			rrRot++;
 			cout << "RR Rot" << endl;
 			cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
 			B->left = A;
 			A->right = B->left;
+			ptrChanges += 2;
 			A->balanceFactor = B->balanceFactor = 0;
+			bfChanges += 2;
 		}
 		else // RL Rotation: 3 cases
 		{
+			rlRot++;
 			C = B->left;
 			CL = C->left;
 			CR = C->right;
@@ -190,24 +217,29 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			C->left = A;
 			B->left = CR;
 			A->right = CL;
+			ptrChanges += 4;
 
 			switch (C->balanceFactor)
 			{
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0;
+				bfChanges += 2;
 				break;
 			case -1:
 				A->balanceFactor = +1;
 				B->balanceFactor = C->balanceFactor = 0;
+				bfChanges += 3;
 				break;
 			case 1:
 				A->balanceFactor = C->balanceFactor = 0;
 				B->balanceFactor = -1;
+				bfChanges += 3;
 				break;
 			}
 
 			C->balanceFactor = 0;
-			B = C;
+			bfChanges++; // Do we need to increment here if C is already 0?
+			B = C; // Is this a pointer change?
 		} // end of else (RL Rotation)
 	}
 
@@ -215,20 +247,23 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	if (F == nullptr)
 	{
 		root = B;
+		ptrChanges++;
 		return;
 	}
 
 	if (A == F->left)
 	{
 		F->left = B;
+		ptrChanges++;
 		return;
 	}
 	if (A == F->right)
 	{
 		F->right = B;
+		ptrChanges++;
 		return;
 	}
-	cout << "If we get here, we fucked up" << endl; // adjust this line before turning in
+	cout << "We should never get here" << endl;
 }
 
 void AVL::list()
@@ -285,4 +320,23 @@ void AVL::print2DUtil(node* start, int space)
 	cout << start->word << "(" << start->balanceFactor << ")" << endl;
 
 	print2DUtil(start->left, space);
+}
+
+void AVL::displayStatistics()
+{
+	cout << "---------------------------" << endl;
+	cout << "AVL STATISTICS" << endl;
+	clock_t endTime = clock();
+	cout << "Balance Factor Changes: " << bfChanges << endl;
+	cout << "Pointer Changes: " << ptrChanges << endl;
+	cout << "Key Comparisons: " << keyComparisons << endl;
+	cout << "Times no rotations were needed: " << noRotNeeded << endl; // need to actually increment this
+	cout << "Times we completed a LL Rotation: " << llRot << endl;
+	cout << "Times we completed a LR Rotation: " << lrRot << endl;
+	cout << "Times we completed a RL Rotation: " << rlRot << endl;
+	cout << "Times we completed a RR Rotation: " << rrRot << endl;
+	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
+	cout << "END AVL STATISTICS" << endl;
+	cout << "---------------------------" << endl;
 }
