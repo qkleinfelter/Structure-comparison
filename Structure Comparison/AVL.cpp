@@ -165,8 +165,8 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 
 			C->right = B;
 			C->left = A;
-			B->left = CL;
-			A->right = CR;
+			B->left = CR;
+			A->right = CL;
 
 			switch (C->balanceFactor)
 			{

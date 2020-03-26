@@ -12,12 +12,12 @@ int main()
    
     AVL* tree = new AVL();
     
+    tree->insert("j");
     tree->insert("d");
-    tree->insert("a");
-    tree->insert("g");
-    tree->insert("e");
-    tree->insert("h");
-    tree->insert("f");
+    tree->insert("n");
+    tree->insert("l");
+    tree->insert("o");
+    tree->insert("k");
 
     //tree->list();
     /*
