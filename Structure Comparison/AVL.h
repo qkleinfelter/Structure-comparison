@@ -14,7 +14,7 @@ public:
 private:
 	struct node
 	{
-		char word[50];
+		char word[50] = {};
 		int count = 1;
 		node* left = nullptr;
 		node* right = nullptr;
