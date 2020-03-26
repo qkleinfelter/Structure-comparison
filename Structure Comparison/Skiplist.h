@@ -10,6 +10,7 @@ public:
 	void insert(const char word[50]);
 	void list();
 	void stackedList();
+	void displayStatistics();
 private:
 	struct node
 	{

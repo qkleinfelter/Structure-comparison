@@ -9,6 +9,7 @@ public:
 	~BST();
 	void insert(const char word[50]);
 	void list();
+	void displayStatistics();
 private:
 	struct node
 	{
