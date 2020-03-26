@@ -13,8 +13,11 @@ int main()
     AVL* tree = new AVL();
     
     tree->insert("d");
-    tree->insert("f");
+    tree->insert("a");
+    tree->insert("g");
     tree->insert("e");
+    tree->insert("h");
+    tree->insert("f");
 
     //tree->list();
     /*

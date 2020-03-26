@@ -176,12 +176,12 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 				A->balanceFactor = B->balanceFactor = 0;
 				break;
 			case -1:
-				B->balanceFactor = +1;
-				A->balanceFactor = C->balanceFactor = 0;
+				A->balanceFactor = +1;
+				B->balanceFactor = C->balanceFactor = 0;
 				break;
 			case 1:
-				B->balanceFactor = C->balanceFactor = 0;
-				A->balanceFactor = -1;
+				A->balanceFactor = C->balanceFactor = 0;
+				B->balanceFactor = -1;
 				break;
 			}
 
