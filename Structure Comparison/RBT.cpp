@@ -76,14 +76,14 @@ void RBT::insert(const char word[50])
 		keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
-		ptrChanges;
+		ptrChanges++;
 	}
 	else
 	{
 		keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
-		ptrChanges;
+		ptrChanges++;
 	}
 	newNode->left = newNode->right = nil;
 	ptrChanges += 2;

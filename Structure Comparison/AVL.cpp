@@ -56,7 +56,11 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	{
 		int compare = strcmp(word, P->word);
 		keyComparisons++;
-		if (compare == 0) return;
+		if (compare == 0)
+		{
+			P->count++;
+			return;
+		}
 		if (P->balanceFactor != 0)
 		{
 			A = P;
