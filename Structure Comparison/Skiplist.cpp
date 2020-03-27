@@ -117,6 +117,12 @@ void Skiplist::insert(const char word[50])
 		currentHeight++;
 		coinTosses++;
 
+		node* stackNode = new node; // Node that gets stacked on top of the current node
+		strcpy(stackNode->word, word);
+		stackNode->down = newNode;
+		newNode->up = stackNode;
+		ptrChanges += 2;
+
 		if (currentHeight > height)
 		{
 			node* negInf = createSentinelNode();
@@ -130,38 +136,38 @@ void Skiplist::insert(const char word[50])
 			tail->up = posInf;
 			ptrChanges += 2;
 
-			negInf->right = posInf;
-			posInf->left = negInf;
-			ptrChanges += 2;
+			negInf->right = stackNode;
+			posInf->left = stackNode;
+			stackNode->left = negInf;
+			stackNode->right = posInf;
+			ptrChanges += 4;
 
 			head = negInf;
 			tail = posInf;
 
 			height++;
+
 		}
-
-		node* stackNode = new node; // Node that gets stacked on top of the current node
-		strcpy(stackNode->word, word);
-		stackNode->down = newNode;
-		newNode->up = stackNode;
-		ptrChanges += 2;
-
-		node* leftNode = p; 
-		while (leftNode->up == nullptr)
+		else
 		{
-			leftNode = leftNode->left;
+			node* leftNode = newNode->left;
+			while (leftNode->up == nullptr)
+			{
+				leftNode = leftNode->left;
+			}
+
+			node* rightNode = newNode->right;
+			while (rightNode->up == nullptr)
+			{
+				rightNode = rightNode->right;
+			}
+
+			stackNode->left = leftNode->up;
+			leftNode->up->right = stackNode;
+			stackNode->right = rightNode->up;
+			rightNode->up->left = stackNode;
+			ptrChanges += 4;
 		}
-
-		node* rightNode = p;
-		while (rightNode->up == nullptr)
-		{
-			rightNode = rightNode->right;
-		}
-
-		stackNode->left = leftNode->up;
-		stackNode->right = rightNode->up;
-		ptrChanges += 2;
-
 		newNode = stackNode;
 	}
 	coinTosses++; // We need to increment coin tosses one more time outside the loop, because it won't get incremented inside if its not an odd number
