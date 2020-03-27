@@ -32,6 +32,7 @@ void AVL::deleteNode(node* n)
 
 void AVL::insert(const char word[50]) // lecture 12 slides 51+
 {
+	//cout << "Inserting " << word << " into the AVL Tree" << endl;
 	node* Y;
 	node* A, *B, *F;
 	node* P, *Q;
@@ -137,8 +138,8 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
-			B->right = A;
 			A->left = B->right;
+			B->right = A;
 			ptrChanges += 2;
 			A->balanceFactor = B->balanceFactor = 0;
 			bfChanges += 2;
@@ -165,22 +166,19 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			{
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0;
-				bfChanges += 2;
 				break;
 			case -1:
 				B->balanceFactor = +1;
-				A->balanceFactor = C->balanceFactor = 0;
-				bfChanges += 3;
+				A->balanceFactor = 0;
 				break;
 			case 1:
-				B->balanceFactor = C->balanceFactor = 0;
+				B->balanceFactor = 0;
 				A->balanceFactor = -1;
-				bfChanges += 3;
 				break;
 			}
 
 			C->balanceFactor = 0;
-			bfChanges++; // Do we need to increment here if C is already 0?
+			bfChanges += 3;
 			B = C; // Is this a pointer change?
 		} // end of else (LR Rotation)
 	} // end of if (d = +1)
@@ -195,8 +193,8 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
 			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
-			B->left = A;
 			A->right = B->left;
+			B->left = A;
 			ptrChanges += 2;
 			A->balanceFactor = B->balanceFactor = 0;
 			bfChanges += 2;
@@ -223,22 +221,19 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			{
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0;
-				bfChanges += 2;
 				break;
 			case -1:
 				A->balanceFactor = +1;
-				B->balanceFactor = C->balanceFactor = 0;
-				bfChanges += 3;
+				B->balanceFactor = 0;
 				break;
 			case 1:
-				A->balanceFactor = C->balanceFactor = 0;
+				A->balanceFactor = 0;
 				B->balanceFactor = -1;
-				bfChanges += 3;
 				break;
 			}
 
 			C->balanceFactor = 0;
-			bfChanges++; // Do we need to increment here if C is already 0?
+			bfChanges += 3;
 			B = C; // Is this a pointer change?
 		} // end of else (RL Rotation)
 	}

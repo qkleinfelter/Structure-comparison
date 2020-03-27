@@ -86,6 +86,7 @@ Skiplist::node* Skiplist::find(const char word[50], bool& found)
 
 void Skiplist::insert(const char word[50])
 {
+	//cout << "Inserting " << word << " into the Skiplist" << endl;
 	bool found = false;
 	node* p = find(word, found);
 

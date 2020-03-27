@@ -88,7 +88,6 @@ void RBT::insert(const char word[50])
 	newNode->left = newNode->right = nil;
 	ptrChanges += 2;
 	newNode->color = RED;
-	// recolorings++; // This is probably an initialization task and doesn't need counting
 	insertFixup(newNode);
 }
 
@@ -217,7 +216,7 @@ void RBT::insertFixup(node* z)
 		}
 	}
 	root->color = BLACK;
-	recolorings++; // Do we need to check if the root was already black before incrementing here?
+	recolorings++; // Do we need to check if the root was already black before incrementing here? -- ask larry
 }
 
 void RBT::list()
