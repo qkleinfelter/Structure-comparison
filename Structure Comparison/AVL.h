@@ -25,14 +25,14 @@ private:
 	};
 
 	node* root = nullptr;
-	unsigned int bfChanges = 0;
-	unsigned int ptrChanges = 0;
-	unsigned int keyComparisons = 0;
-	unsigned int noRotNeeded = 0;
-	unsigned int llRot = 0;
-	unsigned int lrRot = 0;
-	unsigned int rlRot = 0;
-	unsigned int rrRot = 0;
+	unsigned long long bfChanges = 0;
+	unsigned long long ptrChanges = 0;
+	unsigned long long keyComparisons = 0;
+	unsigned long long noRotNeeded = 0;
+	unsigned long long llRot = 0;
+	unsigned long long lrRot = 0;
+	unsigned long long rlRot = 0;
+	unsigned long long rrRot = 0;
 	clock_t startTime;
 
 	void traverse(int& index, node* n);

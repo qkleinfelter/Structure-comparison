@@ -28,9 +28,9 @@ private:
 	node* tail = nullptr;
 	int height;
 	int numItems;
-	unsigned int ptrChanges = 0;
-	unsigned int keyComparisons = 0;
-	unsigned int coinTosses = 0;
+	unsigned long long ptrChanges = 0;
+	unsigned long long keyComparisons = 0;
+	unsigned long long coinTosses = 0;
 	clock_t startTime;
 
 	node* find(const char word[50], bool& found);

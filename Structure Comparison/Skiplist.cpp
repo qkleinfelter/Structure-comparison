@@ -144,6 +144,7 @@ void Skiplist::insert(const char word[50])
 
 			head = negInf;
 			tail = posInf;
+			ptrChanges += 2;
 
 			height++;
 

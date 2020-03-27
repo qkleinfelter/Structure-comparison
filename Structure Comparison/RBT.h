@@ -29,13 +29,13 @@ private:
 
 	node* nil = nullptr;
 	node* root = nullptr;
-	unsigned int recolorings = 0;
-	unsigned int ptrChanges = 0;
-	unsigned int keyComparisons = 0;
-	unsigned int noFixesNeeded = 0;
-	unsigned int case1Fix = 0;
-	unsigned int case2Fix = 0;
-	unsigned int case3Fix = 0;
+	unsigned long long recolorings = 0;
+	unsigned long long ptrChanges = 0;
+	unsigned long long keyComparisons = 0;
+	unsigned long long noFixesNeeded = 0;
+	unsigned long long case1Fix = 0;
+	unsigned long long case2Fix = 0;
+	unsigned long long case3Fix = 0;
 	clock_t startTime;
 
 	void traverse(int& index, node* n);

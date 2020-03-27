@@ -21,8 +21,8 @@ private:
 	};
 	
 	node* root = nullptr;
-	unsigned int ptrChanges = 0;
-	unsigned int keyComparisons = 0;
+	unsigned long long ptrChanges = 0;
+	unsigned long long keyComparisons = 0;
 	clock_t startTime;
 
 	void traverse(int& index, node* n);
