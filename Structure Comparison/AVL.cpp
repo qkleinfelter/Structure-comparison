@@ -21,80 +21,96 @@
 
 AVL::AVL()
 {
-	startTime = clock();
-	root = nullptr;
+	// Constructor
+	startTime = clock(); // set our start time
+	root = nullptr;		 // and make sure the root of our tree is null (redundant)
 }
 
 AVL::~AVL()
 {
-	if (root == nullptr)
+	// Destructor
+	if (root == nullptr) // If the root is null, we don't have anything to delete
 	{
 		return;
 	}
-	deleteNode(root);
-	root = nullptr;
+	deleteNode(root); // Otherwise, call deleteNode on the root
+	root = nullptr;   // and set the root to null
 }
 
 void AVL::deleteNode(node* n)
 {
-	if (n->left != nullptr)
+	// Recursive helper function to delete the nodes of the tree
+	if (n->left != nullptr) // If the left child isn't null, delete it
 	{
 		deleteNode(n->left);
 	}
-	if (n->right != nullptr)
+	if (n->right != nullptr) // If the right child isn't null, delete it
 	{
 		deleteNode(n->right);
 	}
-	delete n;
+	delete n; // Finally, safely delete the current node since its children have been deleted
 }
 
 void AVL::insert(const char word[50]) // lecture 12 slides 51+
 {
-	//cout << "Inserting " << word << " into the AVL Tree" << endl;
-	node* Y;
-	node* A, *B, *F;
-	node* P, *Q;
-	node* C, * CL, * CR;
-	int d;
+	node* Y;				// The new node we insert
+	node* A, *B, *F;		// see below...
+	node* P, *Q;			// ...
+	node* C, * CL, * CR;	// ... for description
+	int d;					// displacement; used to adjust BFs
 
-	if (root == nullptr)
+	if (root == nullptr)	// Empty tree? Make a root node and exit!
 	{
-		Y = new node;
+		Y = new node;		// Make and fill a node
 		strcpy(Y->word, word);
-		Y->left = Y->right = nullptr;
-		Y->balanceFactor = 0;
-		root = Y;
-		ptrChanges++;
-		noRotNeeded++;
-		return;
+		Y->left = Y->right = nullptr; // Leaf --> no children
+		Y->balanceFactor = 0; // it is, by definition, balanced
+		root = Y;			  // root was NULL, so Y is new root
+		ptrChanges++;		  // We changed root, so increment pointer changes
+		noRotNeeded++;		  // No rotations were needed here
+		return;				  // This was the trivial case
 	}
 
-	F = Q = nullptr;
-	A = P = root;
+	// Locate insertion point for X.
+	// P scans through the tree until it falls off bottom 
+	// Q is P's parent (Q lags one step behind P)
+	// The new Node Y will be added as either the left or right child of Q
+	// A is the last parent above Y with a BF of +/- (before the insert)
+	// F is A's parent (F lags one step behind A)
+	//
 
-	while (P != nullptr)
+	F = Q = nullptr; // F and Q lag, so they start as nullptr
+	A = P = root;    // A and P start at the root
+
+	while (P != nullptr) // search tree for insertion point
 	{
-		int compare = strcmp(word, P->word);
+		int compare = strcmp(word, P->word); // Do a comparison on the word we are looking for and the word in the current node
 		keyComparisons++;
 		if (compare == 0)
 		{
+			// If the words are the same, increment the count and return
 			P->count++;
 			return;
 		}
-		if (P->balanceFactor != 0)
-		{
+		if (P->balanceFactor != 0) // Remember the last place we saw
+		{						   // a non-zero BF (and its parent)
 			A = P;
 			F = Q;
 		}
-		Q = P;
-		P = (compare < 0) ? P->left : P->right;
+		Q = P;					   // Bring Q up to where P is
+		P = (compare < 0) ? P->left : P->right; // and then advance P
 	}
 
-	Y = new node;
-	strcpy(Y->word, word);
-	Y->left = Y->right = nullptr;
-	Y->balanceFactor = 0;
+	// At this point, P is NULL, but Q points at the last node where X
+	// belongs (either as Q's left or right child, and Q points at an existing leaf)
+	//
 
+	Y = new node;				  // Make a new node
+	strcpy(Y->word, word);		  // Put our data in it
+	Y->left = Y->right = nullptr; // New nodes are always inserted as leaves
+	Y->balanceFactor = 0;		  // Leaves are balanced by definition
+
+	// Will Y be Q's new left or right child?
 	if (strcmp(word, Q->word) < 0)
 	{
 		keyComparisons++;
@@ -108,7 +124,20 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		ptrChanges++;
 	}
 
-	if (strcmp(word, A->word) > 0)
+	// So far, except for keeping track of F and A, we have done exactly 
+	// the same "dumb" BST insert we've seen before. Now it's time to do
+	// the AVL-specific stuff: detect (and fix, if we have) an imbalance
+
+	// Adjust BFs from A to Q
+	// A was the LAST ancestor with a BF of +/- 1, (or is still the root,
+	// because we never FOUND a BF of +/- 1), so ALL nodes between A and Q
+	// must have a BF of 0, and will, therefore, BECOME +/- 1.
+	//
+	// If the word is inserted in the LEFT subtree of A, then d = +1 (d = -1 means
+	// we inserted the word in the RIGHT subtree of A.)
+
+	if (strcmp(word, A->word) > 0) // Which way is the displacement (d)
+								   // B is identified as A's child
 	{
 		keyComparisons++;
 		B = P = A->right;
@@ -121,9 +150,9 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		d = +1;
 	}
 
-	while (P != Y)
-	{
-		if (strcmp(word, P->word) > 0)
+	while (P != Y)  // P is now one node below A. Adjust from here to the
+	{				// insertion point. Don't do anything to new node (Y)
+		if (strcmp(word, P->word) > 0) // Adjust balance factors and move forward
 		{
 			keyComparisons++;
 			P->balanceFactor = -1;
@@ -139,79 +168,73 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		}
 	}
 
-	if (A->balanceFactor == 0)
-	{
-		A->balanceFactor = d;
+	// Now we check the BF at A and see if we just pushed the tree INTO
+	// BALANCE, into an "unacceptable IMBALANCE", or if it is still 
+	// "BALANCED ENOUGH".
+
+	if (A->balanceFactor == 0) // Tree was completely balanced before the insert.
+	{						   // The insert pushed it to slight (acceptable) imbalance
+		A->balanceFactor = d;  // Set the BF to +/- 1 (displacement tells direction)
+		bfChanges++;
+		noRotNeeded++;
+		return;				   // This is close enough to live with, so exit now
+	}
+
+	if (A->balanceFactor == -d) // If the tree had a slight imbalance the OTHER way,
+	{							// then did the insertion throw the tree INTO complete
+		A->balanceFactor = 0;	// balance? if so, set the BF to zero and we're done
 		bfChanges++;
 		noRotNeeded++;
 		return;
 	}
 
-	/*
-		HELLO NICK I WILL BE RIGHT BACK HERE ARE WHERE I THINK THE NO
-		ROTATION NEEEDED GOES AND MY STATS TO THE RIGHT
-	*/
+	// If we took neither of the 2 returns just above, then the tree WAS
+	// acceptably imbalanced, and is now UNACCEPTABLY IMBALANCED. Which 
+	// rotation type do we need to apply?
 
-
-	if (A->balanceFactor == -d)
-	{
-		A->balanceFactor = 0;
-		bfChanges++;
-		noRotNeeded++;
-		return;
-	}
-
-	if (d == +1)
-	{
+	if (d == +1) // This is a left imbalance (left subtree too tall)
+	{			 // Is it LL or LR?
 		if (B->balanceFactor == +1) // LL ROTATION
 		{
 			llRot++;
-			//cout << "LL Rot" << endl;
-			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
-			A->left = B->right;
-			B->right = A;
+			A->left = B->right; // A's takes B's former right subtree as its new left subtree
+			B->right = A;		// A gets moved into B's right subtree
 			ptrChanges += 2;
-			A->balanceFactor = B->balanceFactor = 0;
+			A->balanceFactor = B->balanceFactor = 0; // Adjust their balance factors to be 0 since we fixed them
 			bfChanges += 2;
 		}
 		else // LR Rotation: 3 cases
 		{
 			lrRot++;
-			C = B->right;
-			CL = C->left;
+			C = B->right; // C is B's right child
+			CL = C->left; // CL and CR are C's left and right children
 			CR = C->right;
 
-			//cout << "LR Rot" << endl;
-			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
-			//cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
-
-			C->left = B;
-			C->right = A;
-			B->right = CL;
-			A->left = CR;
+			C->left = B; // C gets B as its new left subtree
+			C->right = A;// and A as its new right subtree
+			B->right = CL;// B's right subtree becomes C's old left subtree
+			A->left = CR;// and A's left subtree becomes C's old right subtree
 			ptrChanges += 4;
 
-			switch (C->balanceFactor)
+			switch (C->balanceFactor) // Depending on C's balance factor, we need to adjust the others
 			{
 			case 0:
-				A->balanceFactor = B->balanceFactor = 0;
+				A->balanceFactor = B->balanceFactor = 0; // If C was in balance before, A and B are now as well
 				break;
-			case -1:
-				B->balanceFactor = +1;
-				A->balanceFactor = 0;
+			case -1:					// If C had an extra layer to its right before
+				B->balanceFactor = +1;  // then B gets a balance factor of +1 
+				A->balanceFactor = 0;   // and A goes to 0
 				break;
-			case 1:
-				B->balanceFactor = 0;
-				A->balanceFactor = -1;
+			case 1:						// If C had an extra layer to its left before 
+				B->balanceFactor = 0;	// Then B goes to 0
+				A->balanceFactor = -1;  // And A gets a balance factor of -1
 				break;
 			}
 
-			C->balanceFactor = 0;
+			C->balanceFactor = 0;		// Regardless, C is now balanced
 			bfChanges += 3;
-			B = C; // Is this a pointer change?
+			B = C;						// B is the root of the now-reblanced subtree (recycle)
 		} // end of else (LR Rotation)
 	} // end of if (d = +1)
 	else // d = -1. This is a right imbalance
@@ -221,63 +244,63 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		if (B->balanceFactor == -1) // RR Rotation
 		{
 			rrRot++;
-			//cout << "RR Rot" << endl;
-			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
 
-			A->right = B->left;
-			B->left = A;
+			A->right = B->left; // A's takes B's former left subtree as its new right subtree
+			B->left = A;		// A gets moved into B's right subtree
 			ptrChanges += 2;
-			A->balanceFactor = B->balanceFactor = 0;
+			A->balanceFactor = B->balanceFactor = 0; // Adjust their balance factors to be 0 since we fixed them
 			bfChanges += 2;
 		}
 		else // RL Rotation: 3 cases
 		{
 			rlRot++;
-			C = B->left;
-			CL = C->left;
+			C = B->left;  // C is B's left child
+			CL = C->left; // CL and CR are C's left and right children
 			CR = C->right;
 
-			//cout << "RL Rot" << endl;
-			//cout << "a's word " << A->word << " and bf " << A->balanceFactor << endl;
-			//cout << "b's word " << B->word << " and bf " << B->balanceFactor << endl;
-			//cout << "c's word " << C->word << " and bf " << C->balanceFactor << endl;
-
-			C->right = B;
-			C->left = A;
-			B->left = CR;
-			A->right = CL;
+			C->right = B; // C gets B as its new right subtree
+			C->left = A;  // and A as its new left subtree
+			B->left = CR; // B's left subtree becomes C's old right subtree
+			A->right = CL;// and A's right subtree becomes C's old left subtree
 			ptrChanges += 4;
 
-			switch (C->balanceFactor)
+			switch (C->balanceFactor) // Depending on C's balance factor, we need to adjust the others
 			{
 			case 0:
-				A->balanceFactor = B->balanceFactor = 0;
+				A->balanceFactor = B->balanceFactor = 0; // If C was in balance before, A and B are now as well
 				break;
-			case -1:
-				A->balanceFactor = +1;
-				B->balanceFactor = 0;
+			case -1:					// If C had an extra layer to its right before
+				A->balanceFactor = +1;  // Then A gets a balance factor of +1
+				B->balanceFactor = 0;   // and B gets a balance factor of 0
 				break;
-			case 1:
-				A->balanceFactor = 0;
-				B->balanceFactor = -1;
+			case 1:						// If C had an extra layer to its left before
+				A->balanceFactor = 0;   // Then A goes to 0
+				B->balanceFactor = -1;  // and B goes to -1
 				break;
 			}
 
-			C->balanceFactor = 0;
+			C->balanceFactor = 0; // Regardless C is balanced
 			bfChanges += 3;
-			B = C; // Is this a pointer change?
+			B = C; // B is the root of the now-rebalanced subtree (recycle)
 		} // end of else (RL Rotation)
 	}
 
 	// Finish up:
+	//
+	// Regardless, the subtree rooted at B has been rebalanced, and needs to 
+	// be the new child of F. The original subtree of F had root A.
+
+	// did we rebalance the whole tree's root?
 	if (F == nullptr)
 	{
-		root = B;
+		root = B; // B is the tree's new root - done
 		ptrChanges++;
 		return;
 	}
 
+	// The root of what we rebalanced WAS A; now it's B. If the subtree we
+	// rebalanced was LEFT of F, then B needs to be left of F;
+	// if A was RIGHT of F, then B now needs to be right of F.
 	if (A == F->left)
 	{
 		F->left = B;
@@ -330,44 +353,27 @@ void AVL::traverse(int& index, node* n)
 	}
 }
 
-void AVL::print2D()
-{
-	print2DUtil(root, 0);
-}
-
-void AVL::print2DUtil(node* start, int space)
-{
-	if (start == nullptr) return;
-	space += COUNT;
-	print2DUtil(start->right, space);
-
-	cout << endl;
-	for (int i = COUNT; i < space; i++)
-		cout << " ";
-	cout << start->word << "(" << start->balanceFactor << ")" << endl;
-
-	print2DUtil(start->left, space);
-}
-
 void AVL::displayStatistics()
 {
-	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000.0;
+	// This method is used to print out various statistics about
+	// the work our AVL tree did
+	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
+	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
 
 	cout << "---------------------------" << endl;
 	cout << "AVL STATISTICS" << endl;
 	cout << "Balance Factor Changes: " << bfChanges << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
-	cout << "Times no rotations were needed: " << noRotNeeded << endl; // need to actually increment this
+	cout << "Times no rotations were needed: " << noRotNeeded << endl;
 	cout << "Times we completed a LL Rotation: " << llRot << endl;
 	cout << "Times we completed a LR Rotation: " << lrRot << endl;
 	cout << "Times we completed a RL Rotation: " << rlRot << endl;
 	cout << "Times we completed a RR Rotation: " << rrRot << endl;
 	cout << "Tree Height: " << getHeight() << endl;
 
-	unsigned long long numWords, numUniqueWords;
-	calculateWords(numWords, numUniqueWords);
+	unsigned long long numWords, numUniqueWords; // Create variables to store the number of words we have
+	calculateWords(numWords, numUniqueWords);	 // Calculate the words using the variables we just made
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
 
@@ -378,30 +384,39 @@ void AVL::displayStatistics()
 
 unsigned long long AVL::getHeight()
 {
+	// This is a public method that calls our private
+	// calculateHeight method, on the root, and then
+	// returns the height of the tree
 	calculateHeight(root, 0);
 	return treeHeight;
 }
 
 void AVL::calculateHeight(node* currNode, unsigned long long pathHeight)
 {
-	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);
-	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1);
-	if (pathHeight > treeHeight) treeHeight = pathHeight;
+	// This is a recursive helper method used to calculate the height
+	// of the tree underneath a given node, with a given pathHeight
+	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);	  // If we can go left, recursively go left and add one to the height
+	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1); // If we can go right, recursively go right and add one to the height
+	if (pathHeight > treeHeight) treeHeight = pathHeight; // If the current path height is greater than our tree height class variable, then set the tree height to it
 }
 
 void AVL::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
 {
-	numWords = 0;
+	// This is a helper method used to calculate the total number of words & unique words in the tree
+	numWords = 0;		// Make sure our variables are initialized to 0
 	numUniqueWords = 0;
 
+	// And calculate them using our recursive method on the root
 	calculateWords(root, numWords, numUniqueWords);
 }
 
 void AVL::calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords)
 {
-	if (start->left != nullptr) calculateWords(start->left, numWords, numUniqueWords);
-	if (start->right != nullptr) calculateWords(start->right, numWords, numUniqueWords);
+	// This is a recursive helper method used to calculate the
+	// total number of words & unique words in the tree
+	if (start->left != nullptr) calculateWords(start->left, numWords, numUniqueWords);  // If we can go left, do so
+	if (start->right != nullptr) calculateWords(start->right, numWords, numUniqueWords);// If we can go right, do so
 	
-	numWords += start->count;
-	numUniqueWords++;
+	numWords += start->count; // Add the count in the current node to the total number of words
+	numUniqueWords++;		  // Increment the number of unique words by 1 since we are at a new node
 }
