@@ -231,14 +231,38 @@ void Skiplist::stackedList()
 
 void Skiplist::displayStatistics()
 {
+	clock_t endTime = clock();
+	double secondsElapsed = (endTime - startTime) / 1000;
+
 	cout << "---------------------------" << endl;
 	cout << "SKIPLIST STATISTICS" << endl;
-	clock_t endTime = clock();
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
 	cout << "Coin Tosses: " << coinTosses << endl;
-	double secondsElapsed = difftime(endTime, startTime) / 1000;
+
+	unsigned long long numWords, numUniqueWords;
+	calculateWords(numWords, numUniqueWords);
+
+	cout << "Number of words: " << numWords << endl;
+	cout << "Number of unique words: " << numUniqueWords << endl;
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END SKIPLIST STATISTICS" << endl;
 	cout << "---------------------------" << endl;
+}
+
+void Skiplist::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	numWords = 0;
+	numUniqueWords = 0;
+	
+	node* p = head;
+
+	while (p->down != nullptr) p = p->down;
+	while (!p->right->isSentinel)
+	{
+		numWords += p->count;
+		numUniqueWords++;
+		
+		p = p->right;
+	}
 }

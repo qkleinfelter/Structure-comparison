@@ -323,9 +323,11 @@ void AVL::print2DUtil(node* start, int space)
 
 void AVL::displayStatistics()
 {
+	clock_t endTime = clock();
+	double secondsElapsed = (endTime - startTime) / 1000;
+
 	cout << "---------------------------" << endl;
 	cout << "AVL STATISTICS" << endl;
-	clock_t endTime = clock();
 	cout << "Balance Factor Changes: " << bfChanges << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
@@ -334,8 +336,21 @@ void AVL::displayStatistics()
 	cout << "Times we completed a LR Rotation: " << lrRot << endl;
 	cout << "Times we completed a RL Rotation: " << rlRot << endl;
 	cout << "Times we completed a RR Rotation: " << rrRot << endl;
-	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Tree Height: " << getHeight() << endl;
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END AVL STATISTICS" << endl;
 	cout << "---------------------------" << endl;
+}
+
+unsigned long long AVL::getHeight()
+{
+	calculateHeight(root, 0);
+	return treeHeight;
+}
+
+void AVL::calculateHeight(node* currNode, unsigned long long pathHeight)
+{
+	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);
+	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1);
+	if (pathHeight > treeHeight) treeHeight = pathHeight;
 }

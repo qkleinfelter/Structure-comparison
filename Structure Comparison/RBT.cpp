@@ -277,9 +277,10 @@ void RBT::print2DUtil(node* start, int space)
 
 void RBT::displayStatistics()
 {
+	clock_t endTime = clock();
+	double secondsElapsed = (endTime - startTime) / 1000;
 	cout << "---------------------------" << endl;
 	cout << "RBT STATISTICS" << endl;
-	clock_t endTime = clock();
 	cout << "Recolorings: " << recolorings << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
@@ -287,8 +288,21 @@ void RBT::displayStatistics()
 	cout << "Times we completed a Case 1 Fixup: " << case1Fix << endl;
 	cout << "Times we completed a Case 2 Fixup: " << case2Fix << endl;
 	cout << "Times we completed a Case 3 Fixup: " << case3Fix << endl;
-	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Tree Height: " << getHeight() << endl;
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END RBT STATISTICS" << endl;
 	cout << "---------------------------" << endl;
+}
+
+unsigned long long RBT::getHeight()
+{
+	calculateHeight(root, 0);
+	return treeHeight;
+}
+
+void RBT::calculateHeight(node* currNode, unsigned long long pathHeight)
+{
+	if (currNode->left != nil) calculateHeight(currNode->left, pathHeight + 1);
+	if (currNode->right != nil) calculateHeight(currNode->right, pathHeight + 1);
+	if (pathHeight > treeHeight) treeHeight = pathHeight;
 }

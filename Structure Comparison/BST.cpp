@@ -117,13 +117,27 @@ void BST::traverse(int& index, node* n)
 
 void BST::displayStatistics()
 {
+	clock_t endTime = clock();
+	double secondsElapsed = (endTime - startTime) / 1000;
 	cout << "---------------------------" << endl;
 	cout << "BST STATISTICS" << endl;
-	clock_t endTime = clock();
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
-	double secondsElapsed = difftime(endTime, startTime) / 1000;
+	cout << "Tree Height: " << getHeight() << endl;
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END BST STATISTICS" << endl;
 	cout << "---------------------------" << endl;
+}
+
+unsigned long long BST::getHeight()
+{
+	calculateHeight(root, 0);
+	return treeHeight;
+}
+
+void BST::calculateHeight(node* currNode, unsigned long long pathHeight)
+{
+	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);
+	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1);
+	if (pathHeight > treeHeight) treeHeight = pathHeight;
 }

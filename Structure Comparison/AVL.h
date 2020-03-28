@@ -12,6 +12,7 @@ public:
 	void insert(const char word[50]);
 	void list();
 	void print2D();
+	unsigned long long getHeight();
 	void displayStatistics();
 private:
 	struct node
@@ -33,6 +34,8 @@ private:
 	unsigned long long lrRot = 0;
 	unsigned long long rlRot = 0;
 	unsigned long long rrRot = 0;
+	unsigned long long treeHeight = 0;
+
 	clock_t startTime;
 
 	void traverse(int& index, node* n);
@@ -40,4 +43,6 @@ private:
 	void deleteNode(node* n);
 
 	void print2DUtil(node* start, int space);
+
+	void calculateHeight(node* currNode, unsigned long long pathHeight);
 };

@@ -36,4 +36,6 @@ private:
 	node* find(const char word[50], bool& found);
 
 	node* createSentinelNode();
+
+	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords);
 };

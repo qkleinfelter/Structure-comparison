@@ -10,6 +10,7 @@ public:
 	~BST();
 	void insert(const char word[50]);
 	void list();
+	unsigned long long getHeight();
 	void displayStatistics();
 private:
 	struct node
@@ -23,9 +24,12 @@ private:
 	node* root = nullptr;
 	unsigned long long ptrChanges = 0;
 	unsigned long long keyComparisons = 0;
+	unsigned long long treeHeight = 0;
+
 	clock_t startTime;
 
 	void traverse(int& index, node* n);
+	void calculateHeight(node* currNode, unsigned long long pathHeight);
 
 	void deleteNode(node* n);
 };
