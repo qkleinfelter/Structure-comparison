@@ -1,3 +1,21 @@
+/*
+	File: BST.cpp - Binary Search Tree Implementation
+	c.f.: BST.h
+
+	This class implements the Binary Search Tree
+	as declared in BST.h. Each node contains a word, the number
+	of times the word has appeared, and a pointer to its parent and to its left
+	and right children. This tree doesn't adjust the balance of
+	inserted nodes in any way
+
+	Author: Quinn Kleinfelter
+	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
+	Instructor: Dr. Thomas
+	Last Edited: 3/28/20
+	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
+
+*/
+
 #include "BST.h"
 #include <iostream>
 

@@ -1,3 +1,24 @@
+/*
+	File: Skiplist.cpp - Skiplist Implementation
+	c.f.: Skiplist.h
+
+	This class implements the Skiplist
+	as declared in Skiplist.h. Each node contains a word, the number
+	of times the word has appeared, a pointer to its parent and to the
+	left, right, up, and down, and whether or not the node is a sentinel.
+	This data structure doesn't adjust balance of nodes that are inserted
+	using rotations like AVL or RBT, but instead uses pure chance to
+	occasionally add nodes to a "fast" lane above the bottom lane where all 
+	words reside, allowing for quicker searching.
+
+	Author: Quinn Kleinfelter
+	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
+	Instructor: Dr. Thomas
+	Last Edited: 3/28/20
+	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
+
+*/
+
 #include "Skiplist.h"
 #include <stdlib.h>
 #include <time.h>
