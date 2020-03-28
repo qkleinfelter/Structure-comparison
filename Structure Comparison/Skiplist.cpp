@@ -239,6 +239,7 @@ void Skiplist::displayStatistics()
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
 	cout << "Coin Tosses: " << coinTosses << endl;
+	cout << "Height of list: " << height << endl;
 
 	unsigned long long numWords, numUniqueWords;
 	calculateWords(numWords, numUniqueWords);
