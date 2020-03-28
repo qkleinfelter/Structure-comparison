@@ -171,7 +171,6 @@ void Skiplist::insert(const char word[50])
 		}
 		newNode = stackNode;
 	}
-	coinTosses++; // We need to increment coin tosses one more time outside the loop, because it won't get incremented inside if its not an odd number
 }
 
 void Skiplist::list()
@@ -238,7 +237,7 @@ void Skiplist::displayStatistics()
 	cout << "SKIPLIST STATISTICS" << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
-	cout << "Coin Tosses: " << coinTosses << endl;
+	cout << "Coin Tosses that came up heads: " << coinTosses << endl;
 	cout << "Height of list: " << height << endl;
 
 	unsigned long long numWords, numUniqueWords;
