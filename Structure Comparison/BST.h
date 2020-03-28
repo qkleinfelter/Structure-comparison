@@ -1,3 +1,12 @@
+/*
+	BST.h
+	Author: Quinn Kleinfelter
+	EECS 2510-001 Non Linear Data Structures Spring 2020
+	Dr. Thomas
+	Last Edited: 3/28/2020
+	Header for BST.cpp
+*/
+
 #define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <string.h>
