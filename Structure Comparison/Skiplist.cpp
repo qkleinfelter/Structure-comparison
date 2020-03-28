@@ -245,6 +245,7 @@ void Skiplist::displayStatistics()
 
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
+	cout << "Total number of nodes: " << countTotalNodes() << endl;
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END SKIPLIST STATISTICS" << endl;
 	cout << "---------------------------" << endl;
@@ -265,4 +266,23 @@ void Skiplist::calculateWords(unsigned long long& numWords, unsigned long long& 
 		
 		p = p->right;
 	}
+}
+
+unsigned long long Skiplist::countTotalNodes()
+{
+	node* p = head;
+	unsigned long long totalNodes = 0;
+	
+	while (p != nullptr)
+	{
+		node* q = p;
+		while (!q->right->isSentinel)
+		{
+			totalNodes++;
+			q = q->right;
+		}
+
+		p = p->down;
+	}
+	return totalNodes;
 }

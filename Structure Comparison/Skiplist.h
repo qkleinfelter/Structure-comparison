@@ -38,4 +38,5 @@ private:
 	node* createSentinelNode();
 
 	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords);
+	unsigned long long countTotalNodes();
 };
