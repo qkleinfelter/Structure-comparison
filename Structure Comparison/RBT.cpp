@@ -289,6 +289,12 @@ void RBT::displayStatistics()
 	cout << "Times we completed a Case 2 Fixup: " << case2Fix << endl;
 	cout << "Times we completed a Case 3 Fixup: " << case3Fix << endl;
 	cout << "Tree Height: " << getHeight() << endl;
+
+	unsigned long long numWords, numUniqueWords;
+	calculateWords(numWords, numUniqueWords);
+	cout << "Number of words: " << numWords << endl;
+	cout << "Number of unique words: " << numUniqueWords << endl;
+
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END RBT STATISTICS" << endl;
 	cout << "---------------------------" << endl;
@@ -305,4 +311,21 @@ void RBT::calculateHeight(node* currNode, unsigned long long pathHeight)
 	if (currNode->left != nil) calculateHeight(currNode->left, pathHeight + 1);
 	if (currNode->right != nil) calculateHeight(currNode->right, pathHeight + 1);
 	if (pathHeight > treeHeight) treeHeight = pathHeight;
+}
+
+void RBT::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	numWords = 0;
+	numUniqueWords = 0;
+
+	calculateWords(root, numWords, numUniqueWords);
+}
+
+void RBT::calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	if (start->left != nil) calculateWords(start->left, numWords, numUniqueWords);
+	if (start->right != nil) calculateWords(start->right, numWords, numUniqueWords);
+
+	numWords += start->count;
+	numUniqueWords++;
 }

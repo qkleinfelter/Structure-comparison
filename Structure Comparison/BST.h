@@ -30,6 +30,8 @@ private:
 
 	void traverse(int& index, node* n);
 	void calculateHeight(node* currNode, unsigned long long pathHeight);
+	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords);
+	void calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords);
 
 	void deleteNode(node* n);
 };

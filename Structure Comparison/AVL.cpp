@@ -337,6 +337,12 @@ void AVL::displayStatistics()
 	cout << "Times we completed a RL Rotation: " << rlRot << endl;
 	cout << "Times we completed a RR Rotation: " << rrRot << endl;
 	cout << "Tree Height: " << getHeight() << endl;
+
+	unsigned long long numWords, numUniqueWords;
+	calculateWords(numWords, numUniqueWords);
+	cout << "Number of words: " << numWords << endl;
+	cout << "Number of unique words: " << numUniqueWords << endl;
+
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END AVL STATISTICS" << endl;
 	cout << "---------------------------" << endl;
@@ -353,4 +359,21 @@ void AVL::calculateHeight(node* currNode, unsigned long long pathHeight)
 	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);
 	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1);
 	if (pathHeight > treeHeight) treeHeight = pathHeight;
+}
+
+void AVL::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	numWords = 0;
+	numUniqueWords = 0;
+
+	calculateWords(root, numWords, numUniqueWords);
+}
+
+void AVL::calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	if (start->left != nullptr) calculateWords(start->left, numWords, numUniqueWords);
+	if (start->right != nullptr) calculateWords(start->right, numWords, numUniqueWords);
+	
+	numWords += start->count;
+	numUniqueWords++;
 }

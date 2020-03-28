@@ -124,6 +124,12 @@ void BST::displayStatistics()
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
 	cout << "Tree Height: " << getHeight() << endl;
+
+	unsigned long long numWords, numUniqueWords;
+	calculateWords(numWords, numUniqueWords);
+	cout << "Number of words: " << numWords << endl;
+	cout << "Number of unique words: " << numUniqueWords << endl;
+
 	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
 	cout << "END BST STATISTICS" << endl;
 	cout << "---------------------------" << endl;
@@ -140,4 +146,21 @@ void BST::calculateHeight(node* currNode, unsigned long long pathHeight)
 	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);
 	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1);
 	if (pathHeight > treeHeight) treeHeight = pathHeight;
+}
+
+void BST::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	numWords = 0;
+	numUniqueWords = 0;
+
+	calculateWords(root, numWords, numUniqueWords);
+}
+
+void BST::calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords)
+{
+	if (start->left != nullptr) calculateWords(start->left, numWords, numUniqueWords);
+	if (start->right != nullptr) calculateWords(start->right, numWords, numUniqueWords);
+
+	numWords += start->count;
+	numUniqueWords++;
 }

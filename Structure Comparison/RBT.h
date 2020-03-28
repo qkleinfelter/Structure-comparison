@@ -49,4 +49,6 @@ private:
 	void insertFixup(node* z);
 	void print2DUtil(node* start, int space);
 	void calculateHeight(node* currNode, unsigned long long pathHeight);
+	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords);
+	void calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords);
 };
