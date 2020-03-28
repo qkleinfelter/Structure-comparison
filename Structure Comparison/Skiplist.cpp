@@ -232,7 +232,7 @@ void Skiplist::stackedList()
 void Skiplist::displayStatistics()
 {
 	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000;
+	double secondsElapsed = (endTime - startTime) / 1000.0;
 
 	cout << "---------------------------" << endl;
 	cout << "SKIPLIST STATISTICS" << endl;

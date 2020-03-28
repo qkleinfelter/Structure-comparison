@@ -158,6 +158,7 @@ void RBT::rightRotation(node* x)
 
 void RBT::insertFixup(node* z)
 {
+	if (z->parent->color == BLACK) noFixesNeeded++;
 	while (z->parent->color == RED)
 	{
 		if (z->parent == z->parent->parent->left)
@@ -278,7 +279,7 @@ void RBT::print2DUtil(node* start, int space)
 void RBT::displayStatistics()
 {
 	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000;
+	double secondsElapsed = (endTime - startTime) / 1000.0;
 	cout << "---------------------------" << endl;
 	cout << "RBT STATISTICS" << endl;
 	cout << "Recolorings: " << recolorings << endl;

@@ -118,7 +118,7 @@ void BST::traverse(int& index, node* n)
 void BST::displayStatistics()
 {
 	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000;
+	double secondsElapsed = (endTime - startTime) / 1000.0;
 	cout << "---------------------------" << endl;
 	cout << "BST STATISTICS" << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;

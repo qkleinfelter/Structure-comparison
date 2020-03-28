@@ -46,6 +46,8 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		Y->left = Y->right = nullptr;
 		Y->balanceFactor = 0;
 		root = Y;
+		ptrChanges++;
+		noRotNeeded++;
 		return;
 	}
 
@@ -123,13 +125,21 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	{
 		A->balanceFactor = d;
 		bfChanges++;
+		noRotNeeded++;
 		return;
 	}
+
+	/*
+		HELLO NICK I WILL BE RIGHT BACK HERE ARE WHERE I THINK THE NO
+		ROTATION NEEEDED GOES AND MY STATS TO THE RIGHT
+	*/
+
 
 	if (A->balanceFactor == -d)
 	{
 		A->balanceFactor = 0;
 		bfChanges++;
+		noRotNeeded++;
 		return;
 	}
 
@@ -324,7 +334,7 @@ void AVL::print2DUtil(node* start, int space)
 void AVL::displayStatistics()
 {
 	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000;
+	double secondsElapsed = (endTime - startTime) / 1000.0;
 
 	cout << "---------------------------" << endl;
 	cout << "AVL STATISTICS" << endl;
