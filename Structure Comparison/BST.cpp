@@ -135,16 +135,18 @@ void BST::traverse(int& index, node* n)
 
 void BST::displayStatistics()
 {
-	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000.0;
+	// This method is used to print out various statistics about
+	// the work our BST did
+	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
+	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
 	cout << "---------------------------" << endl;
 	cout << "BST STATISTICS" << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
 	cout << "Tree Height: " << getHeight() << endl;
 
-	unsigned long long numWords, numUniqueWords;
-	calculateWords(numWords, numUniqueWords);
+	unsigned long long numWords, numUniqueWords; // Create variables to store the number of words we have
+	calculateWords(numWords, numUniqueWords);    // Calculate the words using the variables we just made
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
 
@@ -155,30 +157,39 @@ void BST::displayStatistics()
 
 unsigned long long BST::getHeight()
 {
+	// This is a public method that calls our private
+	// calculateHeight method, on the root, and then
+	// returns the height of the tree
 	calculateHeight(root, 0);
 	return treeHeight;
 }
 
 void BST::calculateHeight(node* currNode, unsigned long long pathHeight)
 {
-	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);
-	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1);
-	if (pathHeight > treeHeight) treeHeight = pathHeight;
+	// This is a recursive helper method used to calculate the height
+	// of the tree underneath a given node, with a given pathHeight
+	if (currNode->left != nullptr) calculateHeight(currNode->left, pathHeight + 1);   // If we can go left, recursively go left and add one to the height
+	if (currNode->right != nullptr) calculateHeight(currNode->right, pathHeight + 1); // If we can go right, recursively go right and add one to the height
+	if (pathHeight > treeHeight) treeHeight = pathHeight; // If the current path height is greater than our tree height class variable, then set the tree height to it
 }
 
 void BST::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
 {
-	numWords = 0;
+	// This is a helper method used to calculate the total number of words & unique words in the tree
+	numWords = 0;			// Make sure our variables are initialized to 0
 	numUniqueWords = 0;
 
+	// And calculate them using our recursive method on the root
 	calculateWords(root, numWords, numUniqueWords);
 }
 
 void BST::calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords)
 {
-	if (start->left != nullptr) calculateWords(start->left, numWords, numUniqueWords);
-	if (start->right != nullptr) calculateWords(start->right, numWords, numUniqueWords);
+	// This is a recursive helper method used to calculate the
+	// total number of words & unique words in the tree
+	if (start->left != nullptr) calculateWords(start->left, numWords, numUniqueWords); // If we can go left, do so
+	if (start->right != nullptr) calculateWords(start->right, numWords, numUniqueWords); // If we can go right, do so
 
-	numWords += start->count;
-	numUniqueWords++;
+	numWords += start->count; // Add the count in the current node to the total number of words
+	numUniqueWords++;		  // Increment the number of unique words by 1 since we are at a new node
 }
