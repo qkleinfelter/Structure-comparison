@@ -11,7 +11,7 @@
 	Author: Quinn Kleinfelter
 	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
 	Instructor: Dr. Thomas
-	Last Edited: 3/28/20
+	Last Edited: 3/30/20
 	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
 
 */
@@ -22,35 +22,41 @@
 
 RBT::RBT()
 {
-	startTime = clock();
-	nil = new node;
-	strcpy(nil->word, "");
-	nil->color = BLACK;
-	root = nil;
+	// Constructor
+	startTime = clock();	// Keep track of when we started working on the tree
+	nil = new node;			// Initialize our nil node 
+	strcpy(nil->word, "");	// nil has an empty string as its word
+	nil->color = BLACK;		// nil is ALWAYS black
+	root = nil;				// We start off with the root being nil
 }
 
 RBT::~RBT()
 {
+	// Destructor
 	if (root != nil)
 	{
+		// If the root isn't nil, call our helper delete on the root
 		deleteNode(root);
 	}
-	delete nil;
-	nil = nullptr;
-	root = nullptr;
+	delete nil; // Delete the nil node
+	nil = nullptr;	// Set the nil node to nullptr
+	root = nullptr; // Set the root node to nullptr
 }
 
 void RBT::deleteNode(node* n)
 {
+	// Recursive helper method to delete the subtrees 
 	if (n->left != nil)
 	{
+		// If the left child isn't nil, recursively delete it
 		deleteNode(n->left);
 	}
 	if (n->right != nil)
 	{
+		// If the right child isn't nil, recursively delete it
 		deleteNode(n->right);
 	}
-	delete n;
+	delete n; // Delete the current node
 }
 
 void RBT::insert(const char word[50])
@@ -67,7 +73,7 @@ void RBT::insert(const char word[50])
 		y = x; // Save our current location in y
 		if (compareVal == 0)
 		{
-			// If the word in x matches our word we increment the count, print and return
+			// If the word in x matches our word we increment the count, and return
 			x->count++;
 			return;
 		}
@@ -82,10 +88,11 @@ void RBT::insert(const char word[50])
 	strcpy(newNode->word, word); // Set the word in the new node to be the word we are adding to the list
 	newNode->parent = y;
 	ptrChanges++;
+	newNode->color = RED; // We always add a new node as RED
 
 	if (y == nil)
 	{
-		// y is only NULL if the root was null so our new node must be the first in the tree, therefore make it the root
+		// y is only nil if the root was nil so our new node must be the first in the tree, therefore make it the root
 		root = newNode;
 		ptrChanges++;
 	}
@@ -103,10 +110,8 @@ void RBT::insert(const char word[50])
 		y->right = newNode;
 		ptrChanges++;
 	}
-	newNode->left = newNode->right = nil;
-	ptrChanges += 2;
-	newNode->color = RED;
-	insertFixup(newNode);
+	newNode->left = newNode->right = nil; // Both of the children of our new node must be nil
+	insertFixup(newNode); // Insert any fixups we may need
 }
 
 void RBT::leftRotation(node* x)
@@ -133,109 +138,109 @@ void RBT::leftRotation(node* x)
 		ptrChanges++;
 	}
 	else                            // gets taken by y
-	{								// put x on y's left, which...
+	{								
 		x->parent->right = y;       
 		ptrChanges++;
 	}
-	y->left = x;                    // ...makes x's parent be y
-	x->parent = y;
+	y->left = x;                    // put x on y's left, which...
+	x->parent = y;					// ...makes x's parent be y
 	ptrChanges += 2;
 }
 
 void RBT::rightRotation(node* x)
 {
-	node* y = x->left;
-	x->left = y->right;
-	ptrChanges++;
+	node* y = x->left;				// y is x's left (non-nil) child
+	x->left = y->right;				// move y's right subtree into
+	ptrChanges++;					// x's left subtree
 	if (y->right != nil)
 	{
 		y->right->parent = x;
 		ptrChanges++;
 	}
-	y->parent = x->parent;
+	y->parent = x->parent;			// Link x's parent to y
 	ptrChanges++;
-	if (x->parent == nil)
-	{
+	if (x->parent == nil)			// If has no parent, x was the root
+	{								// so y becomes the new root
 		root = y;
 		ptrChanges++;
 	}
-	else if (x == x->parent->right)
-	{
+	else if (x == x->parent->right)	// Otherwise (x has a parent), the 
+	{								// spot x used to occupy now
 		x->parent->right = y;
 		ptrChanges++;
 	}
 	else
 	{
-		x->parent->left = y;
+		x->parent->left = y;		// gets taken by y
 		ptrChanges++;
 	}
-	y->right = x;
-	x->parent = y;
+	y->right = x;					// put x on y's right, which...
+	x->parent = y;					// ...makes x's parent be y
 	ptrChanges += 2;
 }
 
 void RBT::insertFixup(node* z)
 {
-	if (z->parent->color == BLACK) noFixesNeeded++;
+	if (z->parent->color == BLACK) noFixesNeeded++; // If our node's parent is Black, we don't enter the while loop, and therefore don't make any fixes
 	while (z->parent->color == RED)
 	{
-		if (z->parent == z->parent->parent->left)
+		if (z->parent == z->parent->parent->left)	// is z's parent a left child of its parent?
 		{
-			node* y = z->parent->parent->right;
+			node* y = z->parent->parent->right;		// let y be z's (right) uncle
 			if (y->color == RED)
 			{
 				case1Fix++;
-				z->parent->color = BLACK;
-				y->color = BLACK;
-				z->parent->parent->color = RED;
-				recolorings += 3;
-				z = z->parent->parent;
+				z->parent->color = BLACK;			// Case 1 (re-color only)
+				y->color = BLACK;					// Case 1
+				z->parent->parent->color = RED;		// Case 1
+				recolorings += 3;					// Case 1
+				z = z->parent->parent;				// Case 1
 			}
-			else 
+			else // Handle Case 2 / 3 issues (we ALWAYS have a Case 3 if we fix a Case 2, but it can also happen independently)
 			{
-				if (z == z->parent->right) 
+				if (z == z->parent->right)			// Is z the right child of its parent?
 				{
 					case2Fix++;
-					z = z->parent;
-					leftRotation(z);
+					z = z->parent;					// Case 2
+					leftRotation(z);				// Case 2
 				}
-				case3Fix++;
-				z->parent->color = BLACK;
-				z->parent->parent->color = RED;
-				recolorings += 2;
-				rightRotation(z->parent->parent);
+				case3Fix++;							
+				z->parent->color = BLACK;			// Case 3
+				z->parent->parent->color = RED;		// Case 3
+				recolorings += 2;					// Case 3
+				rightRotation(z->parent->parent);	// Case 3
 			}
 		}
-		else
+		else                                        // Is z's parent a right child of its parent?
 		{
-			node* y = z->parent->parent->left;
+			node* y = z->parent->parent->left;		// let y be z's (left) uncle
 			if (y->color == RED)
 			{
 				case1Fix++;
-				z->parent->color = BLACK;
-				y->color = BLACK;
-				z->parent->parent->color = RED;
-				recolorings += 3;
-				z = z->parent->parent;
+				z->parent->color = BLACK;			// Case 1 (re-color only)
+				y->color = BLACK;					// Case 1
+				z->parent->parent->color = RED;		// Case 1
+				recolorings += 3;					// Case 1
+				z = z->parent->parent;				// Case 1
 			}
-			else 
+			else // Handle Case 2 / 3 issues (we ALWAYS have a Case 3 if we fix a Case 2, but it can also happen independently)
 			{
-				if (z == z->parent->left)
+				if (z == z->parent->left)			// Is z the left child of its parent?
 				{
 					case2Fix++;
-					z = z->parent;
-					rightRotation(z);
+					z = z->parent;					// Case 2
+					rightRotation(z);				// Case 2
 				}
 				case3Fix++;
-				z->parent->color = BLACK;
-				z->parent->parent->color = RED;
-				recolorings += 2;
-				leftRotation(z->parent->parent);
+				z->parent->color = BLACK;			// Case 3
+				z->parent->parent->color = RED;		// Case 3
+				recolorings += 2;					// Case 3
+				leftRotation(z->parent->parent);	// Case 3
 			}
 		}
 	}
-	root->color = BLACK;
-	recolorings++; // Do we need to check if the root was already black before incrementing here? -- ask larry
+	root->color = BLACK;	// Takes care of the potential "rule 2" violation
+	recolorings++;
 }
 
 void RBT::list()
@@ -275,29 +280,13 @@ void RBT::traverse(int& index, node* n)
 	}
 }
 
-void RBT::print2D()
-{
-	print2DUtil(root, 0);
-}
-
-void RBT::print2DUtil(node* start, int space)
-{
-	if (start == nil) return;
-	space += COUNT;
-	print2DUtil(start->right, space);
-
-	cout << endl;
-	for (int i = COUNT; i < space; i++)
-		cout << " ";
-	cout << start->word << endl;
-
-	print2DUtil(start->left, space);
-}
-
 void RBT::displayStatistics()
 {
-	clock_t endTime = clock();
-	double secondsElapsed = (endTime - startTime) / 1000.0;
+	// This method is used to print out various statistics about
+	// the work our RBT did
+	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
+	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
+	
 	cout << "---------------------------" << endl;
 	cout << "RBT STATISTICS" << endl;
 	cout << "Recolorings: " << recolorings << endl;
@@ -309,8 +298,8 @@ void RBT::displayStatistics()
 	cout << "Times we completed a Case 3 Fixup: " << case3Fix << endl;
 	cout << "Tree Height: " << getHeight() << endl;
 
-	unsigned long long numWords, numUniqueWords;
-	calculateWords(numWords, numUniqueWords);
+	unsigned long long numWords, numUniqueWords; // Create variables to store the number of words we have
+	calculateWords(numWords, numUniqueWords);	 // Calculate the words using the variables we just made
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
 
@@ -321,30 +310,39 @@ void RBT::displayStatistics()
 
 unsigned long long RBT::getHeight()
 {
+	// This is a public method that calls our private
+	// calculateHeight method, on the root, and then
+	// returns the height of the tree
 	calculateHeight(root, 0);
 	return treeHeight;
 }
 
 void RBT::calculateHeight(node* currNode, unsigned long long pathHeight)
 {
-	if (currNode->left != nil) calculateHeight(currNode->left, pathHeight + 1);
-	if (currNode->right != nil) calculateHeight(currNode->right, pathHeight + 1);
-	if (pathHeight > treeHeight) treeHeight = pathHeight;
+	// This is a recursive helper method used to calculate the height
+	// of the tree underneath a given node, with a given pathHeight
+	if (currNode->left != nil) calculateHeight(currNode->left, pathHeight + 1);	  // If we can go left, recursively go left and add one to the height
+	if (currNode->right != nil) calculateHeight(currNode->right, pathHeight + 1); // If we can go right, recursively go right and add one to the height
+	if (pathHeight > treeHeight) treeHeight = pathHeight; // If the current path height is greater than our tree height class variable, then set the tree height to it
 }
 
 void RBT::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)
 {
-	numWords = 0;
+	// This is a helper method used to calculate the total number of words & unique words in the tree
+	numWords = 0;		// Make sure our variables are initialized to 0
 	numUniqueWords = 0;
 
+	// And calculate them using our recursive method on the root
 	calculateWords(root, numWords, numUniqueWords);
 }
 
 void RBT::calculateWords(node* start, unsigned long long& numWords, unsigned long long& numUniqueWords)
 {
-	if (start->left != nil) calculateWords(start->left, numWords, numUniqueWords);
-	if (start->right != nil) calculateWords(start->right, numWords, numUniqueWords);
+	// This is a recursive helper method used to calculate the
+	// total number of words & unique words in the tree
+	if (start->left != nil) calculateWords(start->left, numWords, numUniqueWords);  // If we can go left, do so
+	if (start->right != nil) calculateWords(start->right, numWords, numUniqueWords);// If we can go right, do so
 
-	numWords += start->count;
-	numUniqueWords++;
+	numWords += start->count; // Add the count in the current node to the total number of words
+	numUniqueWords++;		  // Increment the number of unique words by 1 since we are at a new node
 }
