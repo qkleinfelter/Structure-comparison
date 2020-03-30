@@ -20,7 +20,6 @@
 */
 
 #include "Skiplist.h"
-#include <stdlib.h>
 #include <time.h>
 #include <iostream>
 
@@ -36,7 +35,7 @@ Skiplist::Skiplist()
 	height = 1;
 	numItems = 0;
 
-	srand(time(NULL));
+	coin = mt19937(time(NULL));
 }
 
 Skiplist::~Skiplist()
@@ -133,7 +132,7 @@ void Skiplist::insert(const char word[50])
 
 	int currentHeight = 1;
 
-	while (rand() & 1)
+	while (coin() & 1)
 	{
 		currentHeight++;
 		coinTosses++;

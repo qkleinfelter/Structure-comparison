@@ -11,6 +11,7 @@
 #pragma once
 #include <string.h>
 #include <time.h>
+#include <random>
 using namespace std;
 class Skiplist
 {
@@ -33,6 +34,7 @@ private:
 		bool isSentinel = false;
 	};
 
+	mt19937 coin;
 	node* head = nullptr;
 	node* tail = nullptr;
 	int height;
