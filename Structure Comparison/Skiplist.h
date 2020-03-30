@@ -16,38 +16,39 @@ using namespace std;
 class Skiplist
 {
 public:
-	Skiplist();
-	~Skiplist();
-	void insert(const char word[50]);
-	void list();
-	void stackedList();
-	void displayStatistics();
+	Skiplist(); // Constructor
+	~Skiplist();// Destructor
+	void insert(const char word[50]); // Inserts word into our skiplist
+	void list(); // Lists out the skiplist
+	void stackedList(); // Lists out the skiplist showing the different lanes (stacked to the side instead of up)
+	void displayStatistics(); // Display statistics about the work our Skiplist has done
 private:
 	struct node
 	{
-		char word[50];
-		int count = 1;
-		node* left = nullptr;
-		node* right = nullptr;
-		node* up = nullptr;
-		node* down = nullptr;
-		bool isSentinel = false;
+		// Node struct used to build out the skiplist
+		char word[50]; // Variable to hold the word for each node
+		int count = 1; // Variable to hold the number of times we have seen the word in a given node
+		node* left = nullptr;	// Left pointer variable
+		node* right = nullptr;	// Right pointer variable
+		node* up = nullptr;		// Up pointer variable
+		node* down = nullptr;	// Down pointer variable
+		bool isSentinel = false;// Variable to keep track of whether a given node is a sentinel
 	};
 
-	mt19937 coin;
-	node* head = nullptr;
-	node* tail = nullptr;
-	int height;
-	int numItems;
-	unsigned long long ptrChanges = 0;
-	unsigned long long keyComparisons = 0;
-	unsigned long long coinTosses = 0;
-	clock_t startTime;
+	mt19937 coin; // Variable used for our Mersenne Twister PRNG
+	node* head = nullptr; // Head of our skiplist, nullptr at first
+	node* tail = nullptr; // Tail of our skiplist, nullptr at first
+	int height;			  // Height of the skiplist
+	int numItems;		  // Number of items in the skiplist
+	unsigned long long ptrChanges = 0;		// Variable to keep track of the number of pointer changes we make
+	unsigned long long keyComparisons = 0;	// Variable to keep track of the number of key comparisons we make
+	unsigned long long coinTosses = 0;		// Variable to keep track of the number of coin tosses that come up heads
+	clock_t startTime;						// Variable to keep track of when we started working on the skiplist
 
-	node* find(const char word[50], bool& found);
+	node* find(const char word[50], bool& found);	// Find a given node in the skiplist, if we don't find it return the node before it
 
-	node* createSentinelNode();
+	node* createSentinelNode(); // Helper method to create a sentinel node
 
-	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords);
-	unsigned long long countTotalNodes();
+	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords); // Helper method to calculate the number of words and unique words in the skiplist
+	unsigned long long countTotalNodes(); // Counts the total number of nodes in the skiplist
 };
