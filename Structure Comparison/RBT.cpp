@@ -98,14 +98,14 @@ void RBT::insert(const char word[50])
 	}
 	else if (strcmp(newNode->word, y->word) < 0)
 	{
-		keyComparisons++;
+		//keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
 		ptrChanges++;
 	}
 	else
 	{
-		keyComparisons++;
+		//keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
 		ptrChanges++;
@@ -116,6 +116,7 @@ void RBT::insert(const char word[50])
 
 void RBT::leftRotation(node* x)
 {
+	leftRot++;
 	node* y = x->right; // y is x's right (non-nil) child
 	x->right = y->left; // move y's left subtree into x's right subtree
 	ptrChanges++;
@@ -149,6 +150,7 @@ void RBT::leftRotation(node* x)
 
 void RBT::rightRotation(node* x)
 {
+	rightRot++;
 	node* y = x->left;				// y is x's left (non-nil) child
 	x->left = y->right;				// move y's right subtree into
 	ptrChanges++;					// x's left subtree
@@ -239,8 +241,11 @@ void RBT::insertFixup(node* z)
 			}
 		}
 	}
-	root->color = BLACK;	// Takes care of the potential "rule 2" violation
-	recolorings++;
+	if (root->color != BLACK)
+	{
+		root->color = BLACK;	// Takes care of the potential "rule 2" violation
+		recolorings++;
+	}
 }
 
 void RBT::list()
@@ -292,7 +297,9 @@ void RBT::displayStatistics()
 	cout << "Recolorings: " << recolorings << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
 	cout << "Key Comparisons: " << keyComparisons << endl;
-	cout << "Times no fixups were needed: " << noFixesNeeded << endl; // Need to actually adjust this
+	cout << "Times no fixups were needed: " << noFixesNeeded << endl;
+	cout << "Times we ran a left rotation: " << leftRot << endl;
+	cout << "Times we ran a right rotation: " << rightRot << endl;
 	cout << "Times we completed a Case 1 Fixup: " << case1Fix << endl;
 	cout << "Times we completed a Case 2 Fixup: " << case2Fix << endl;
 	cout << "Times we completed a Case 3 Fixup: " << case3Fix << endl;

@@ -42,6 +42,8 @@ private:
 	unsigned long long ptrChanges = 0;		// Variable to track the number of pointer changes we made
 	unsigned long long keyComparisons = 0;  // Variable to track the number of key comparisons we made
 	unsigned long long noFixesNeeded = 0;   // Variable to track the number of times we didn't need to fix anything when inserting
+	unsigned long long leftRot = 0;
+	unsigned long long rightRot = 0;
 	unsigned long long case1Fix = 0;		// Variable to track the number of case 1 fixups we made
 	unsigned long long case2Fix = 0;		// Variable to track the number of case 2 fixups we made
 	unsigned long long case3Fix = 0;		// Variable to track the number of case 3 fixups we made

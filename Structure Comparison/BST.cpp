@@ -82,14 +82,14 @@ void BST::insert(const char word[50])
 	}
 	else if (strcmp(newNode->word, y->word) < 0)
 	{
-		keyComparisons++;
+		//keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
 		ptrChanges++;
 	}
 	else
 	{
-		keyComparisons++;
+		//keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
 		ptrChanges++;

@@ -90,6 +90,7 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		{
 			// If the words are the same, increment the count and return
 			P->count++;
+			noRotNeeded++;
 			return;
 		}
 		if (P->balanceFactor != 0) // Remember the last place we saw
@@ -113,13 +114,13 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	// Will Y be Q's new left or right child?
 	if (strcmp(word, Q->word) < 0)
 	{
-		keyComparisons++;
+		//keyComparisons++;
 		Q->left = Y;
 		ptrChanges++;
 	}
 	else
 	{
-		keyComparisons++;
+		//keyComparisons++;
 		Q->right = Y;
 		ptrChanges++;
 	}
@@ -221,19 +222,22 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			{
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0; // If C was in balance before, A and B are now as well
+				bfChanges += 2;
 				break;
 			case -1:					// If C had an extra layer to its right before
 				B->balanceFactor = +1;  // then B gets a balance factor of +1 
 				A->balanceFactor = 0;   // and A goes to 0
+				C->balanceFactor = 0;
+				bfChanges += 3;
 				break;
 			case 1:						// If C had an extra layer to its left before 
 				B->balanceFactor = 0;	// Then B goes to 0
 				A->balanceFactor = -1;  // And A gets a balance factor of -1
+				C->balanceFactor = 0;
+				bfChanges += 3;
 				break;
 			}
 
-			C->balanceFactor = 0;		// Regardless, C is now balanced
-			bfChanges += 3;
 			B = C;						// B is the root of the now-reblanced subtree (recycle)
 		} // end of else (LR Rotation)
 	} // end of if (d = +1)
@@ -268,19 +272,22 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			{
 			case 0:
 				A->balanceFactor = B->balanceFactor = 0; // If C was in balance before, A and B are now as well
+				bfChanges += 2;
 				break;
 			case -1:					// If C had an extra layer to its right before
 				A->balanceFactor = +1;  // Then A gets a balance factor of +1
 				B->balanceFactor = 0;   // and B gets a balance factor of 0
+				C->balanceFactor = 0;
+				bfChanges += 3;
 				break;
 			case 1:						// If C had an extra layer to its left before
 				A->balanceFactor = 0;   // Then A goes to 0
 				B->balanceFactor = -1;  // and B goes to -1
+				C->balanceFactor = 0;
+				bfChanges += 3;
 				break;
 			}
 
-			C->balanceFactor = 0; // Regardless C is balanced
-			bfChanges += 3;
 			B = C; // B is the root of the now-rebalanced subtree (recycle)
 		} // end of else (RL Rotation)
 	}
