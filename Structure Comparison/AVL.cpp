@@ -90,7 +90,6 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		{
 			// If the words are the same, increment the count and return
 			P->count++;
-			noRotNeeded++;
 			return;
 		}
 		if (P->balanceFactor != 0) // Remember the last place we saw
