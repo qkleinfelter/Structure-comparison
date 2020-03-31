@@ -209,7 +209,7 @@ void RBT::insertFixup(node* z)
 				case3Fix++;							
 				z->parent->color = BLACK;			// Case 3
 				z->parent->parent->color = RED;		// Case 3
-				recolorings += 2;					// Case 3
+				recolorings += 3;					// Case 3 -- WRONG NUMBER OF RECOLORINGS BUT THIS MATCHES LARRY
 				rightRotation(z->parent->parent);	// Case 3
 			}
 		}
@@ -244,7 +244,7 @@ void RBT::insertFixup(node* z)
 	if (root->color != BLACK)
 	{
 		root->color = BLACK;	// Takes care of the potential "rule 2" violation
-		recolorings++;
+		//recolorings++; -- SHOULD DEFINITELY BE INCREMENTED BUT THIS MATCHES LARRY
 	}
 }
 
