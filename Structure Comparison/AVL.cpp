@@ -149,6 +149,8 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 		B = P = A->left;
 		d = +1;
 	}
+	
+	aToYPasses++;
 
 	while (P != Y)  // P is now one node below A. Adjust from here to the
 	{				// insertion point. Don't do anything to new node (Y)
@@ -158,6 +160,7 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			P->balanceFactor = -1;
 			bfChanges++;
 			P = P->right;
+			aToYBfChanges++;
 		}
 		else
 		{
@@ -165,6 +168,7 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 			P->balanceFactor = +1;
 			bfChanges++;
 			P = P->left;
+			aToYBfChanges++;
 		}
 	}
 
@@ -377,6 +381,8 @@ void AVL::displayStatistics()
 	cout << "Times we completed a RL Rotation: " << rlRot << endl;
 	cout << "Times we completed a RR Rotation: " << rrRot << endl;
 	cout << "Tree Height: " << getHeight() << endl;
+	cout << "A to Y Passes: " << aToYPasses << endl;
+	cout << "A to Y Balance Factor Changes: " << aToYBfChanges << endl;
 
 	unsigned long long numWords, numUniqueWords; // Create variables to store the number of words we have
 	calculateWords(numWords, numUniqueWords);	 // Calculate the words using the variables we just made

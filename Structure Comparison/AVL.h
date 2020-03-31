@@ -43,6 +43,8 @@ private:
 	unsigned long long rlRot = 0;			// Variable to keep track of the number of times we do a RL Rotation
 	unsigned long long rrRot = 0;			// Variable to keep track of the number of times we do a RR Rotation
 	unsigned long long treeHeight = 0;		// Variable to keep track of the height of the tree
+	unsigned long long aToYPasses = 0;
+	unsigned long long aToYBfChanges = 0;
 
 	clock_t startTime;						// Variable to keep track of the time we started working on the tree
 
