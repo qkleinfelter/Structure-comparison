@@ -2,7 +2,7 @@
     Author: Quinn Kleinfelter
 	EECS 2510-001 Non Linear Data Structures Spring 2020
 	Dr. Thomas
-	Last Edited: 3/28/2020
+	Last Edited: 4/1/2020
 	Main File used to run tests on our 4 data structures,
     AVL, BST, RBT, and Skiplist.
 */
@@ -47,7 +47,7 @@ void run()
 
         bool isDelimiter = false, wasDelimiter = false;
         
-        inFile.open("C:\\Users\\Quinn\\Desktop\\Huffman Testing\\Shakespeare.txt", ios::binary);
+        inFile.open("C:\\Users\\Quinn\\Desktop\\Structure Comparison Testing\\Prose\\To Kill a Mockingbird - Harper Lee.txt", ios::binary);
         if (inFile.fail())
         {
             cout << "Unable to open input file \n\n Program Exiting \n\n Press ENTER to exit";

@@ -3,7 +3,7 @@
 	Author: Quinn Kleinfelter
 	EECS 2510-001 Non Linear Data Structures Spring 2020
 	Dr. Thomas
-	Last Edited: 3/30/2020
+	Last Edited: 4/1/2020
 	Header for RBT.cpp
 */
 
