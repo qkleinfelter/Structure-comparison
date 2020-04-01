@@ -47,7 +47,7 @@ void run()
 
         bool isDelimiter = false, wasDelimiter = false;
         
-        inFile.open("C:\\Users\\Quinn\\Desktop\\Structure Comparison Testing\\Prose\\To Kill a Mockingbird - Harper Lee.txt", ios::binary);
+        inFile.open("C:\\Users\\Quinn\\Desktop\\Structure Comparison Testing\\ALL.txt", ios::binary);
         if (inFile.fail())
         {
             cout << "Unable to open input file \n\n Program Exiting \n\n Press ENTER to exit";

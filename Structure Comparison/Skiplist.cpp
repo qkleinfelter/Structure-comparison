@@ -283,7 +283,9 @@ void Skiplist::calculateWords(unsigned long long& numWords, unsigned long long& 
 	node* p = head;	// Start at the head
 
 	while (p->down != nullptr) p = p->down; // Go down as far as we can
-	while (!p->right->isSentinel) // While whats to the right isn't a sentinel
+
+	p = p->right;
+	while (!p->isSentinel) // While whats to the right isn't a sentinel
 	{
 		numWords += p->count;	  // The total number of words gets incremented by the count of p
 		numUniqueWords++;		  // and our uniques go up by 1 because we are at a node we haven't seen yet
