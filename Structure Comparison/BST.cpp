@@ -29,6 +29,7 @@ BST::BST()
 
 BST::~BST()
 {
+	if (root == nullptr) return; // If we don't have a root, theres nothing to delete
 	// Deletes the node at the root of the tree, and all nodes in its subtrees
 	deleteNode(root);
 	root = nullptr; // After we have deleted all of our nodes make the root of the tree null
@@ -58,7 +59,7 @@ void BST::insert(const char word[50])
 
 	while (x != nullptr)
 	{
-		compareVal = strcmp(x->word, word);
+		compareVal = strcmp(word, x->word);
 		keyComparisons++;
 		y = x; // Save our current location in y
 		if (compareVal == 0)
@@ -69,34 +70,36 @@ void BST::insert(const char word[50])
 		}
 		// The word didn't match our word, so we check to see if the word we want to insert should go to the left or right of the current word,
 		// and make x the pointer from our current words appropriate direction
-		x = compareVal > 0 ? x->left : x->right;
+		x = compareVal < 0 ? x->left : x->right;
 	}
 	// We made it here so we must not have found the word in the list
 	// Therefore, create a new node to store the word
 	node* newNode = new node;
 	newNode->count = 1; // Redundantly set the count in the new node to 1
 	strcpy(newNode->word, word); // Set the word in the new node to be the word we are adding to the list
-	newNode->left = NULL; // We only add new nodes as leaves so set the left and right pointers to null
-	newNode->right = NULL;
+	newNode->left = nullptr; // We only add new nodes as leaves so set the left and right pointers to null
+	newNode->right = nullptr;
 
-	if (y == NULL)
+	if (y == nullptr)
 	{
 		// y is only NULL if the root was null so our new node must be the first in the tree, therefore make it the root
 		root = newNode;
-		ptrChanges++;
-	}
-	else if (compareVal < 0)
-	{
-		// If newNode's word is less than the parents word, make it the left child
-		y->left = newNode;
-		ptrChanges++;
+		//ptrChanges++;
 	}
 	else
 	{
-		// Otherwise, we know it must go to the right of the parent
-		y->right = newNode;
-		ptrChanges++;
+		if (compareVal < 0)
+		{
+			// If newNode's word is less than the parents word, make it the left child
+			y->left = newNode;
+		}
+		else
+		{
+			// Otherwise, we know it must go to the right of the parent
+			y->right = newNode;
+		}
 	}
+	ptrChanges++;
 }
 
 void BST::list()

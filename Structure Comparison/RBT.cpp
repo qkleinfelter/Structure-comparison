@@ -243,11 +243,8 @@ void RBT::insertFixup(node* z)
 			}
 		}
 	}
-	if (root->color != BLACK)
-	{
-		root->color = BLACK;	// Takes care of the potential "rule 2" violation
-		recolorings++;
-	}
+	root->color = BLACK;	// Takes care of the potential "rule 2" violation
+	recolorings++;
 }
 
 void RBT::list()
