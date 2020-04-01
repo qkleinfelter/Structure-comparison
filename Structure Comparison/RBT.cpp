@@ -66,6 +66,9 @@ void RBT::insert(const char word[50])
 	// create a new node, and append it to the bottom of the tree in the appropriate position
 	node* x = root; // Start at the root
 	node* y = nil; // Y will lag one step behind x, to ensure we keep track of where we fall off the tree
+
+	// We define this here so that we can use it the last comparison outside
+	// of the while loop and avoid extra strcmp calls
 	int compareVal;
 	while (x != nil)
 	{

@@ -51,9 +51,14 @@ void BST::insert(const char word[50])
 	// create a new node, and append it to the bottom of the tree in the appropriate position
 	node* x = root; // Start at the root
 	node* y = nullptr; // Y will lag one step behind x, to ensure we keep track of where we fall off the tree
+
+	// We define this here so that we can use it the last comparison outside
+	// of the while loop and avoid extra strcmp calls
+	int compareVal;
+
 	while (x != nullptr)
 	{
-		int compareVal = strcmp(x->word, word);
+		compareVal = strcmp(x->word, word);
 		keyComparisons++;
 		y = x; // Save our current location in y
 		if (compareVal == 0)
@@ -80,16 +85,14 @@ void BST::insert(const char word[50])
 		root = newNode;
 		ptrChanges++;
 	}
-	else if (strcmp(newNode->word, y->word) < 0)
+	else if (compareVal < 0)
 	{
-		//keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
 		ptrChanges++;
 	}
 	else
 	{
-		//keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
 		ptrChanges++;

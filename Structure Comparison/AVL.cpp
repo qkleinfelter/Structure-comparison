@@ -82,9 +82,13 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	F = Q = nullptr; // F and Q lag, so they start as nullptr
 	A = P = root;    // A and P start at the root
 
+	// We define this here so that we can use it the last comparison outside
+	// of the while loop and avoid extra strcmp calls
+	int compare;
+
 	while (P != nullptr) // search tree for insertion point
 	{
-		int compare = strcmp(word, P->word); // Do a comparison on the word we are looking for and the word in the current node
+		compare = strcmp(word, P->word); // Do a comparison on the word we are looking for and the word in the current node
 		keyComparisons++;
 		if (compare == 0)
 		{
@@ -111,15 +115,13 @@ void AVL::insert(const char word[50]) // lecture 12 slides 51+
 	Y->balanceFactor = 0;		  // Leaves are balanced by definition
 
 	// Will Y be Q's new left or right child?
-	if (strcmp(word, Q->word) < 0)
+	if (compare < 0)
 	{
-		//keyComparisons++;
 		Q->left = Y;
 		ptrChanges++;
 	}
 	else
 	{
-		//keyComparisons++;
 		Q->right = Y;
 		ptrChanges++;
 	}
