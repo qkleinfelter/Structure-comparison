@@ -43,7 +43,6 @@ private:
 	unsigned long long ptrChanges = 0;		// Variable to keep track of the number of pointer changes we make
 	unsigned long long keyComparisons = 0;	// Variable to keep track of the number of key comparisons we make
 	unsigned long long coinTosses = 0;		// Variable to keep track of the number of coin tosses that come up heads
-	clock_t startTime;						// Variable to keep track of when we started working on the skiplist
 
 	node* find(const char word[50], bool& found);	// Find a given node in the skiplist, if we don't find it return the node before it
 

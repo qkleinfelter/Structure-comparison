@@ -46,8 +46,6 @@ private:
 	unsigned long long aToYPasses = 0;
 	unsigned long long aToYBfChanges = 0;
 
-	clock_t startTime;						// Variable to keep track of the time we started working on the tree
-
 	void traverse(int& index, node* n);		// Traverse the tree recursively for our list method
 
 	void deleteNode(node* n);				// Delete the subtrees of n and n itself afterwards

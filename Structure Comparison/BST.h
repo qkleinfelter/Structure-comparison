@@ -36,8 +36,6 @@ private:
 	unsigned long long keyComparisons = 0; // Variable to keep track of the amount of times we make a key comparison
 	unsigned long long treeHeight = 0; // Variable to keep track of the height of the tree
 
-	clock_t startTime; // Variable to keep track of the time we created the tree
-
 	void traverse(int& index, node* n); // Recursive helper function used for printing the tree nicely
 	void calculateHeight(node* currNode, unsigned long long pathHeight); // Method to calculate the height of the tree
 	void calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords); // Method to calculate the number of words and the number of unique words in the tree

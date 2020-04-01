@@ -23,7 +23,6 @@
 RBT::RBT()
 {
 	// Constructor
-	startTime = clock();	// Keep track of when we started working on the tree
 	nil = new node;			// Initialize our nil node 
 	strcpy(nil->word, "");	// nil has an empty string as its word
 	nil->color = BLACK;		// nil is ALWAYS black
@@ -288,9 +287,6 @@ void RBT::displayStatistics()
 {
 	// This method is used to print out various statistics about
 	// the work our RBT did
-	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
-	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
-	
 	cout << "---------------------------" << endl;
 	cout << "RBT STATISTICS" << endl;
 	cout << "Recolorings: " << recolorings << endl;
@@ -308,10 +304,6 @@ void RBT::displayStatistics()
 	calculateWords(numWords, numUniqueWords);	 // Calculate the words using the variables we just made
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
-
-	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
-	cout << "END RBT STATISTICS" << endl;
-	cout << "---------------------------" << endl;
 }
 
 unsigned long long RBT::getHeight()

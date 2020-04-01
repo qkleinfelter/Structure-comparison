@@ -48,7 +48,6 @@ private:
 	unsigned long long case2Fix = 0;		// Variable to track the number of case 2 fixups we made
 	unsigned long long case3Fix = 0;		// Variable to track the number of case 3 fixups we made
 	unsigned long long treeHeight = 0;		// Variable to track the height of the tree
-	clock_t startTime;						// Variable to track when we started work on the tree
 
 	void traverse(int& index, node* n);		// Helper method for printing out the tree nicely
 

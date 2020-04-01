@@ -24,7 +24,6 @@ BST::BST()
 	// Constructor, nothing to do here except make sure we don't have a root already.
 	// This is redundant since it defaults to NULL, but we do it anyway for clarity
 	root = nullptr; // New Trees don't have a root until we insert an item.
-	startTime = clock();
 }
 
 BST::~BST()
@@ -143,8 +142,6 @@ void BST::displayStatistics()
 {
 	// This method is used to print out various statistics about
 	// the work our BST did
-	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
-	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
 	cout << "---------------------------" << endl;
 	cout << "BST STATISTICS" << endl;
 	cout << "Pointer Changes: " << ptrChanges << endl;
@@ -155,10 +152,6 @@ void BST::displayStatistics()
 	calculateWords(numWords, numUniqueWords);    // Calculate the words using the variables we just made
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
-
-	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
-	cout << "END BST STATISTICS" << endl;
-	cout << "---------------------------" << endl;
 }
 
 unsigned long long BST::getHeight()

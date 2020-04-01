@@ -26,7 +26,6 @@
 Skiplist::Skiplist()
 {
 	// Constructor
-	startTime = clock();		// Start work on the skiplist
 	head = createSentinelNode();// Head is a sentinel node
 	tail = createSentinelNode();// Tail is a sentinel node
 
@@ -259,8 +258,6 @@ void Skiplist::displayStatistics()
 {
 	// This method is used to print out various statistics about
 	// the work our Skiplist did
-	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
-	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
 
 	cout << "---------------------------" << endl;
 	cout << "SKIPLIST STATISTICS" << endl;
@@ -275,9 +272,6 @@ void Skiplist::displayStatistics()
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words / Number of Slow Lane Nodes: " << numUniqueWords << endl;
 	cout << "Total number of nodes: " << countTotalNodes() << endl;
-	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
-	cout << "END SKIPLIST STATISTICS" << endl;
-	cout << "---------------------------" << endl;
 }
 
 void Skiplist::calculateWords(unsigned long long& numWords, unsigned long long& numUniqueWords)

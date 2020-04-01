@@ -22,7 +22,6 @@
 AVL::AVL()
 {
 	// Constructor
-	startTime = clock(); // set our start time
 	root = nullptr;		 // and make sure the root of our tree is null (redundant)
 }
 
@@ -369,9 +368,6 @@ void AVL::displayStatistics()
 {
 	// This method is used to print out various statistics about
 	// the work our AVL tree did
-	clock_t endTime = clock(); // If we're displaying stats, we can finish out the timer since we aren't working on the tree anymore
-	double secondsElapsed = (endTime - startTime) / 1000.0; // Calculate the elapsed time in seconds between the start and the end
-
 	cout << "---------------------------" << endl;
 	cout << "AVL STATISTICS" << endl;
 	cout << "Balance Factor Changes: " << bfChanges << endl;
@@ -390,10 +386,6 @@ void AVL::displayStatistics()
 	calculateWords(numWords, numUniqueWords);	 // Calculate the words using the variables we just made
 	cout << "Number of words: " << numWords << endl;
 	cout << "Number of unique words: " << numUniqueWords << endl;
-
-	cout << "Elapsed Time: " << secondsElapsed << " seconds." << endl;
-	cout << "END AVL STATISTICS" << endl;
-	cout << "---------------------------" << endl;
 }
 
 unsigned long long AVL::getHeight()

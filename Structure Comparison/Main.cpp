@@ -39,8 +39,12 @@ void run()
     int iPtr;
     ifstream inFile;
 
+    clock_t dryRunElapsed;
+
     for (int pass = 0; pass < 6; pass++)
     {
+        clock_t startTime = clock();
+
         bool isDelimiter = false, wasDelimiter = false;
         
         inFile.open("C:\\Users\\Quinn\\Desktop\\Huffman Testing\\Shakespeare.txt", ios::binary);
@@ -78,6 +82,8 @@ void run()
         // If the file doesn't end with a delimiter, it will leave the last word unprocessed.
         // Insert once more, and display the statistics for this structure...
         //
+        clock_t endTime = clock();
+        clock_t elapsedTime = endTime - startTime;
 
         if (pass == 2) // RBT
         {
@@ -98,6 +104,16 @@ void run()
         {
             if (strlen(chari)) SL->insert(chari);
             SL->displayStatistics();
+        }
+
+        if (pass == 1)
+        {
+            dryRunElapsed = elapsedTime;
+        }
+        else if (pass > 1)
+        {
+            cout << "Elapsed Time: " << (elapsedTime - dryRunElapsed) / 1000.0 << " seconds" << endl;
+            cout << "---------------------------" << endl;
         }
     }
     // Delete all of our trees now that we are done
