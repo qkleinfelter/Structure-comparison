@@ -66,9 +66,10 @@ void RBT::insert(const char word[50])
 	// create a new node, and append it to the bottom of the tree in the appropriate position
 	node* x = root; // Start at the root
 	node* y = nil; // Y will lag one step behind x, to ensure we keep track of where we fall off the tree
+	int compareVal;
 	while (x != nil)
 	{
-		int compareVal = strcmp(word, x->word);
+		compareVal = strcmp(word, x->word);
 		keyComparisons++;
 		y = x; // Save our current location in y
 		if (compareVal == 0)
@@ -96,16 +97,14 @@ void RBT::insert(const char word[50])
 		root = newNode;
 		ptrChanges++;
 	}
-	else if (strcmp(newNode->word, y->word) < 0)
+	else if (compareVal < 0)
 	{
-		//keyComparisons++;
 		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
 		ptrChanges++;
 	}
 	else
 	{
-		//keyComparisons++;
 		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
 		ptrChanges++;
@@ -209,7 +208,7 @@ void RBT::insertFixup(node* z)
 				case3Fix++;							
 				z->parent->color = BLACK;			// Case 3
 				z->parent->parent->color = RED;		// Case 3
-				recolorings += 3;					// Case 3 -- WRONG NUMBER OF RECOLORINGS BUT THIS MATCHES LARRY
+				recolorings += 2;					// Case 3
 				rightRotation(z->parent->parent);	// Case 3
 			}
 		}
@@ -244,7 +243,7 @@ void RBT::insertFixup(node* z)
 	if (root->color != BLACK)
 	{
 		root->color = BLACK;	// Takes care of the potential "rule 2" violation
-		//recolorings++; -- SHOULD DEFINITELY BE INCREMENTED BUT THIS MATCHES LARRY
+		recolorings++;
 	}
 }
 
